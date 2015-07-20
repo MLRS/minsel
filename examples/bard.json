@@ -1,0 +1,162 @@
+{
+    "lemma" : "bard",
+    "pos" : "NOUN",
+    "gender" : "m",
+    "senses" : [
+        {
+            "sense_id" : 1,
+            "description" : [
+                "cold, coldness, coolness, chilliness, freezing cold"
+            ],
+            "etymologies" : [
+                "Ar",
+                "And",
+                "Mor",
+                "Hass",
+                "Alg-Tun",
+                "Eg",
+                "Chad-Sud",
+                "Lev",
+                "Pal",
+                "Korm",
+                "Kǝnd",
+                "Ir",
+                "Bah",
+                "Yem",
+                "Mand",
+                "SAR"
+            ]
+        },
+        {
+            "sense_id" : 2,
+            "description" : [
+                "wind in general",
+                "gust of wind"
+            ],
+            "etymologies" : [
+                "Mor",
+                "Alg-Tun"
+            ]
+        },
+        {
+            "sense_id" : 3,
+            "description" : [
+                "cold wind"
+            ],
+            "etymologies" : [
+                "Mor"
+            ]
+        },
+        {
+            "sense_id" : 4,
+            "description" : [
+                "cold weather, cold season",
+                "winter"
+            ],
+            "etymologies" : [
+                "Eg",
+                "Chad-Sud"
+            ]
+        },
+        {
+            "sense_id" : 5,
+            "description" : [
+                "catarrh",
+                "illnesses attributed to coldness"
+            ],
+            "etymologies" : [
+                "Ar",
+                "Mor",
+                "Alg-Tun"
+            ]
+        }
+    ],
+    "etymology" : [
+        {
+            "language" : "Ar",
+            "word" : "bard",
+            "reference" : "Wehr 51"
+        },
+        {
+            "language" : "And",
+            "word" : "bard",
+            "reference" : "Corr. 44"
+        },
+        {
+            "language" : "Mor",
+            "word" : "bǝrd",
+            "reference" : "Col 63"
+        },
+        {
+            "language" : "Hass",
+            "word" : "berd",
+            "reference" : "T-Ch. 74"
+        },
+        {
+            "language" : "Alg-Tun",
+            "word" : "bard",
+            "reference" : "Beaus 43"
+        },
+        {
+            "language" : "Eg",
+            "word" : "bard",
+            "reference" : "BH 62"
+        },
+        {
+            "language" : "Chad-Sud",
+            "word" : "berd",
+            "reference" : "R-L 46"
+        },
+        {
+            "language" : "Lev",
+            "word" : "bard",
+            "reference" : "Barth 35"
+        },
+        {
+            "language" : "Pal",
+            "word" : "bard",
+            "reference" : "Eli 76"
+        },
+        {
+            "language" : "Korm",
+            "word" : "part",
+            "reference" : "Borg 155"
+        },
+        {
+            "language" : "Kǝnd",
+            "word" : "bard",
+            "reference" : "Vo/Wald 35"
+        },
+        {
+            "language" : "Ir",
+            "word" : "barid",
+            "reference" : "Wood/Bean 30"
+        },
+        {
+            "language" : "Bah",
+            "word" : "bard ",
+            "reference" : "Hol. 35"
+        },
+        {
+            "language" : "Yem",
+            "word" : "bard",
+            "reference" : "Deb. 35"
+        },
+        {
+            "language" : "Yem",
+            "word" : "barid",
+            "reference" : "Behn. 232"
+        },
+        {
+            "language" : "Mand",
+            "semitic" : true,
+            "word" : "barda"
+        },
+        {
+            "language" : "SAR",
+            "semitic" : true,
+            "word" : "brd",
+            "reference" : "DRS 81"
+        }
+    ]
+}

@@ -1,0 +1,210 @@
+{
+    "lemma" : "bired",
+    "pos" : "VERB",
+    "intransitive" : true,
+    "senses" : [
+        {
+            "sense_id" : 1,
+            "description" : [
+                "to be or become cold",
+                "to cool, cool off",
+                "to feel cold",
+                "to cool, chill"
+            ],
+            "etymologies" : [
+                "Ar",
+                "And",
+                "Mor",
+                "Hass",
+                "Alg-Tun",
+                "Eg",
+                "Lev",
+                "Pal",
+                "Korm",
+                "Kǝnd",
+                "Ir",
+                "Gulf",
+                "Bah",
+                "Ge",
+                "Tna",
+                "Te"
+            ]
+        },
+        {
+            "sense_id" : 2,
+            "description" : [
+                "to catch a cold"
+            ],
+            "etymologies" : [
+                "Mor",
+                "Alg-Tun",
+                "Lev",
+                "Pal"
+            ]
+        },
+        {
+            "sense_id" : 3,
+            "description" : [
+                "to soothe, alleviate (pain)"
+            ],
+            "etymologies" : [
+                "Ar",
+                "Eg",
+                "Tham"
+            ]
+        },
+        {
+            "sense_id" : 4,
+            "description" : [
+                "to cool, wane, calm down (anger, enthousiasm, activity, etc.)"
+            ],
+            "etymologies" : [
+                "Mor",
+                "Alg-Tun",
+                "Chad-Sud",
+                "Lev",
+                "Ir",
+                "Yem"
+            ]
+        },
+        {
+            "sense_id" : 5,
+            "description" : [
+                "to became motionless"
+            ],
+            "etymologies" : [
+                "And"
+            ]
+        },
+        {
+            "sense_id" : 6,
+            "description" : [
+                "to become a boor, behave insensitively or shamelessly"
+            ],
+            "etymologies" : [
+                "Alg-Tun",
+                "Eg"
+            ]
+        },
+        {
+            "sense_id" : 7,
+            "description" : [
+                "misc: to be impoverished, to run out (blood)",
+                "to absorb, amortize (a ball, bullet)",
+                "to dilute (wine), to leave meat to mature."
+            ],
+            "etymologies" : [
+                "Alg-Tun"
+            ]
+        }
+    ],
+    "etymology" : [
+        {
+            "language" : "Ar",
+            "word" : "barada, baruda (u)",
+            "reference" : "Wehr 51"
+        },
+        {
+            "language" : "And",
+            "word" : "barad",
+            "reference" : "Corr. 44"
+        },
+        {
+            "language" : "Mor",
+            "word" : "brǝd",
+            "reference" : "Col 62"
+        },
+        {
+            "language" : "Hass",
+            "word" : "brǝd (yǝbrǝd)",
+            "reference" : "TCheikh 73-74"
+        },
+        {
+            "language" : "Alg-Tun",
+            "word" : "brǝd",
+            "reference" : "Beaus 42"
+        },
+        {
+            "language" : "Eg",
+            "word" : "birid (a)",
+            "reference" : "BH 62"
+        },
+        {
+            "language" : "Chad-Sud",
+            "word" : "barad",
+            "reference" : "R-L 46"
+        },
+        {
+            "language" : "Lev",
+            "word" : "barad (yǝbrod)",
+            "reference" : "Barth 35"
+        },
+        {
+            "language" : "Pal",
+            "word" : "barad (yubrod)",
+            "reference" : "Eli 75"
+        },
+        {
+            "language" : "Korm",
+            "word" : "parat (pkyiprot)",
+            "reference" : "Borg 155"
+        },
+        {
+            "language" : "Kǝnd",
+            "word" : "bǝrǝd",
+            "reference" : "Vo/Wald 35"
+        },
+        {
+            "language" : "Ir",
+            "word" : "burad (a)",
+            "reference" : "Wood/Bean 30"
+        },
+        {
+            "language" : "Gulf",
+            "word" : "birad (yabrid)",
+            "reference" : "Qaf. 36"
+        },
+        {
+            "language" : "Bah",
+            "word" : "barad (i)",
+            "reference" : "Hol. 35"
+        },
+        {
+            "language" : "Yem",
+            "word" : "barad (yabrid)",
+            "reference" : "Behn. 232"
+        },
+        {
+            "language" : "Yem",
+            "word" : "birid",
+            "reference" : "Deb. 41"
+        },
+        {
+            "language" : "Tham",
+            "semitic" : true,
+            "word" : "brd",
+            "reference" : "DRS 81"
+        },
+        {
+            "language" : "Ge",
+            "semitic" : true,
+            "word" : "barada (yǝbrǝd)"
+        },
+        {
+            "language" : "Tna",
+            "semitic" : true,
+            "word" : "bärädä"
+        },
+        {
+            "language" : "Te",
+            "semitic" : true,
+            "word" : "bärda"
+        },
+        {
+            "language" : "Amh",
+            "semitic" : true,
+            "word" : "bärrädä",
+            "reference" : "CDG 103"
+        }
+    ]
+}
