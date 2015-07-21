@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title Minsel
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    script(src='/json-editor/jsoneditor.js')
+  body(role="document",style="margin-top:4em")
+    nav.navbar.navbar-default.navbar-fixed-top
+      .container
+        .navbar-header
+          a.navbar-brand(href="/",style="color:firebrick") Minsel Etymological Dictionary
+        .navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li
+              a(href="/add") New entry
+    .container
+      block content
