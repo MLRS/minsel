@@ -1,97 +1,100 @@
 {
-    "format": "grid",
-    "title": "Entry",
-    "type": "object",
-    "required" : [
-        "lemma",
-        "pos",
-        "senses",
-        "etymology"
-    ],
-    "properties": {
-        "lemma": {
-            "title": "Lemma",
-            "type": "string"
-        },
-        "pos": {
-            "title": "POS",
-            "description": "Part of Speech",
-            "type": "string",
-            "enum": [
-                "ADJ",
-                "ADP",
-                "ADV",
-                "AUX",
-                "CONJ",
-                "DET",
-                "INTJ",
-                "NOUN",
-                "NUM",
-                "PART",
-                "PRON",
-                "PROPN",
-                "PUNCT",
-                "SCONJ",
-                "SYM",
-                "VERB",
-                "X"
-            ]
-        },
-        "gender": {
-            "title": "Gender",
-            "type": "string",
-            "enum": [
-                "m",
-                "f"
-            ]
-        },
-        "senses": {
-            "title": "Word senses",
+  "format": "grid",
+  "title": "Entry",
+  "type": "object",
+  "required" : [
+    "lemma",
+    "pos",
+    "senses",
+    "etymology"
+  ],
+  "properties": {
+    "lemma": {
+      "title": "Lemma",
+      "type": "string"
+    },
+    "pos": {
+      "title": "POS",
+      "description": "Part of Speech",
+      "type": "string",
+      "enum": [
+        "ADJ",
+        "ADP",
+        "ADV",
+        "AUX",
+        "CONJ",
+        "DET",
+        "INTJ",
+        "NOUN",
+        "NUM",
+        "PART",
+        "PRON",
+        "PROPN",
+        "PUNCT",
+        "SCONJ",
+        "SYM",
+        "VERB",
+        "X"
+      ]
+    },
+    "gender": {
+      "title": "Gender",
+      "type": "string",
+      "enum": [
+        "m",
+        "f"
+      ]
+    },
+    "transitive": {
+      "type": "boolean"
+    },
+    "intransitive": {
+      "type": "boolean"
+    },
+    "senses": {
+      "title": "Word senses",
+      "type": "array",
+      "items": {
+        "title": "Sense",
+        "type": "object",
+        "properties": {
+          "sense_id" : {
+            "type": "integer",
+            "minimum": 1
+          },
+          "description" : {
             "type": "array",
             "items": {
-                "title": "Sense",
-                "type": "object",
-                "properties": {
-                    "sense_id" : {
-                        "type": "integer",
-                        "minimum": 1
-                    },
-                    "description" : {
-                        "type": "array",
-                        "items": {
-                            "description" : {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "etymologies" : {
-                        "type": "array",
-                        "items": {
-                            "description" : {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
+              "type": "string"
             }
-        },
-        "etymology": {
-            "title": "Etymological information",
+          },
+          "etymologies" : {
             "type": "array",
             "items": {
-                "type": "object",
-                "properties": {
-                    "language" : {
-                        "type": "string"
-                    },
-                    "word" : {
-                        "type": "string"
-                    },
-                    "reference" : {
-                        "type": "string"
-                    }
-                }
+              "type": "string"
             }
+          }
         }
+      }
+    },
+    "etymology": {
+      "title": "Etymological information",
+      "type": "array",
+      "items": {
+        "format": "grid",
+        "type": "object",
+        "properties": {
+          "language" : {
+            "type": "string"
+          },
+          "word" : {
+            "type": "string"
+          },
+          "reference" : {
+            "type": "string"
+          }
+        }
+      }
     }
+  }
 }

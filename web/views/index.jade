@@ -3,4 +3,29 @@ extends layout
 block content
   h1= title
 
-  p &hellip;
+  table.table
+    thead
+      tr
+        th Lemma
+        th Senses
+        th Etymology
+    tbody
+      each d in data
+        tr
+          td
+            a(href="/edit/#{d._id}")= d.lemma
+          td
+            ol
+              if d.senses
+                for s in d.senses
+                  li= s.description
+                    div.text-muted= s.etymologies
+          td
+            if d.etymology
+              for e in d.etymology
+                div
+                  strong= e.language
+                        | &nbsp;
+                  em= e.word
+                    | &nbsp;
+                  span (#{e.reference})
