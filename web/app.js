@@ -39,6 +39,7 @@ app.use('/entries', entries)
 // http://stackoverflow.com/a/27464258/98600
 app.use('/json-editor', express.static(__dirname + '/node_modules/json-editor/dist/'))
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'))
+app.use('/ladda', express.static(__dirname + '/node_modules/ladda/dist/'))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -23,7 +23,7 @@ router.get('/add', function (req, res, next) {
       return console.log(err)
     }
     res.render('edit', {
-      title: 'Add',
+      title: 'New entry',
       schema: data,
       id: null
     })
@@ -38,7 +38,7 @@ router.get('/edit/:id', function (req, res, next) {
       return console.log(err)
     }
     res.render('edit', {
-      title: 'Edit ' + req.params.id,
+      title: 'Edit entry',
       schema: data,
       id: req.params.id
     })

@@ -46,30 +46,38 @@
       ]
     },
     "transitive": {
-      "type": "boolean"
+      "type": "boolean",
+      "format": "checkbox"
     },
     "intransitive": {
-      "type": "boolean"
+      "type": "boolean",
+      "format": "checkbox"
     },
     "senses": {
       "title": "Word senses",
       "type": "array",
+      "format": "tabs",
       "items": {
         "title": "Sense",
         "type": "object",
         "properties": {
           "sense_id" : {
+            "title": "Sense ID",
             "type": "integer",
             "minimum": 1
           },
           "description" : {
+            "title": "Descriptions",
             "type": "array",
+            "format": "table",
             "items": {
               "type": "string"
             }
           },
           "etymologies" : {
+            "title": "Etymologies",
             "type": "array",
+            "format": "table",
             "items": {
               "type": "string"
             }
@@ -80,6 +88,7 @@
     "etymology": {
       "title": "Etymological information",
       "type": "array",
+      "format": "table",
       "items": {
         "format": "grid",
         "type": "object",
