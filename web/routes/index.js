@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
   var collection = req.db.get('entries')
   collection.find({}, function (err, data) {
     if (err) {
-      res.status(500).send(err)
+      console.log(err)
     }
     res.render('index', { title: 'Entries', data: data })
   })
@@ -20,7 +20,8 @@ router.get('/', function (req, res, next) {
 router.get('/add', function (req, res, next) {
   fs.readFile(schema_file, 'utf8', function (err, data) {
     if (err) {
-      return console.log(err)
+      // Not loading schema is not fatal!
+      console.log(err)
     }
     res.render('edit', {
       title: 'New entry',
@@ -35,7 +36,8 @@ router.get('/add', function (req, res, next) {
 router.get('/edit/:id', function (req, res, next) {
   fs.readFile(schema_file, 'utf8', function (err, data) {
     if (err) {
-      return console.log(err)
+      // Not loading schema is not fatal!
+      console.log(err)
     }
     res.render('edit', {
       title: 'Edit entry',
