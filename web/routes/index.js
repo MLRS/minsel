@@ -16,12 +16,13 @@ router.get('/', function (req, res, next) {
 
 })
 
-/* GET entry - edit */
+/* GET add */
 router.get('/add', function (req, res, next) {
   fs.readFile(schema_file, 'utf8', function (err, data) {
     if (err) {
       // Not loading schema is not fatal!
       console.log(err)
+      data = "{}"
     }
     res.render('edit', {
       title: 'New entry',
@@ -32,12 +33,13 @@ router.get('/add', function (req, res, next) {
 
 })
 
-/* GET entry - edit */
+/* GET edit */
 router.get('/edit/:id', function (req, res, next) {
   fs.readFile(schema_file, 'utf8', function (err, data) {
     if (err) {
       // Not loading schema is not fatal!
       console.log(err)
+      data = "{}"
     }
     res.render('edit', {
       title: 'Edit entry',

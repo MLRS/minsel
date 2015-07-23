@@ -64,7 +64,7 @@
           "sense_id" : {
             "title": "Sense ID",
             "type": "integer",
-            "minimum": 1
+            "min": 1
           },
           "description" : {
             "title": "Descriptions",

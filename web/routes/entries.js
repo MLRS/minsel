@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 
-// -- REST API ---------------------------------------------------------------
+// -- CRUD API ---------------------------------------------------------------
 
 /* Create = POST */
 /* Content-Type: application/json */
