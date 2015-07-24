@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 var fs = require('fs')
 
-const schema_file = '../examples/schema.json'
+const schema_file = 'public/schemas/entry.json'
 
 /* GET home page - list entries */
 router.get('/', function (req, res, next) {

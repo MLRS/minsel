@@ -13,7 +13,7 @@ block content
       each d in data
         tr
           td
-            a(href="/edit/#{d._id}")= d.lemma
+            a(href="#{baseURL}/edit/#{d._id}")= d.lemma
           td
             ol
               if d.senses

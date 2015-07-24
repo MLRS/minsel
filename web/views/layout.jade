@@ -4,27 +4,27 @@ html
     title Minsel
     script(src='https://code.jquery.com/jquery-2.1.4.min.js')
 
-    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
-    script(src='/bootstrap/js/bootstrap.min.js')
+    link(rel='stylesheet', href='#{baseURL}/bootstrap/css/bootstrap.min.css')
+    script(src='#{baseURL}/bootstrap/js/bootstrap.min.js')
 
-    script(src='/json-editor/jsoneditor.min.js')
+    script(src='#{baseURL}/json-editor/jsoneditor.min.js')
 
-    link(rel='stylesheet', href='/ladda/ladda-themeless.min.css')
-    script(src='/ladda/spin.min.js')
-    script(src='/ladda/ladda.min.js')
-    script(src='/ladda/ladda.jquery.min.js')
+    link(rel='stylesheet', href='#{baseURL}/ladda/ladda-themeless.min.css')
+    script(src='#{baseURL}/ladda/spin.min.js')
+    script(src='#{baseURL}/ladda/ladda.min.js')
+    script(src='#{baseURL}/ladda/ladda.jquery.min.js')
     style.
       .affix { top: 8px; right: 10px; z-index: 10000; }
   body(role="document",style="margin-top:4em")
     nav.navbar.navbar-default.navbar-fixed-top
       .container
         .navbar-header
-          a.navbar-brand(href="/",style="color:firebrick") Minsel Etymological Dictionary
+          a.navbar-brand(href="#{baseURL}/",style="color:firebrick") Minsel Etymological Dictionary
         .navbar-collapse.collapse
           ul.nav.navbar-nav
             li
-              a(href="/") List entries
+              a(href="#{baseURL}/") List entries
             li
-              a(href="/add") New entry
+              a(href="#{baseURL}/add") New entry
     .container
       block content

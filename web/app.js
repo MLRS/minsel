@@ -27,6 +27,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// Base URL for views
+app.use(function (req, res, next) {
+  var config = require('./server-config')
+  res.locals.baseURL = config.baseURL
+  next()
+})
+
 // Make our db accessible to our router
 app.use(function (req, res, next) {
   req.db = db

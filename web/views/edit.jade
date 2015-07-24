@@ -6,7 +6,7 @@ block content
       a.btn.btn-primary#btn_load Reset
       a.btn.btn-success#btn_save Save
       a.btn.btn-danger#btn_delete Delete
-      a.btn.btn-default#btn_cancel(href='/') Cancel
+      a.btn.btn-default#btn_cancel(href='#{baseURL}/') Cancel
 
   div#editor_holder
 
@@ -14,8 +14,8 @@ block content
     var element = document.getElementById('editor_holder')
     var editor = new JSONEditor(element, {
       schema: !{schema},
-      theme: "bootstrap3",
-      iconlib: "bootstrap3",
+      theme: 'bootstrap3',
+      iconlib: 'bootstrap3',
     })
     $(document).ready(function () {
       // Apply ladda to buttons
@@ -29,7 +29,7 @@ block content
       l.ladda('start')
       $.ajax({
         method: "GET",
-        url: "/entries/#{id}",
+        url: "#{baseURL}/entries/#{id}",
         success: function (data) {
           editor.setValue(data)
         },
@@ -48,7 +48,7 @@ block content
       $.ajax({
         method: "POST",
         contentType: "application/json",
-        url: "/entries/"+id,
+        url: "#{baseURL}/entries/"+id,
         data: JSON.stringify(editor.getValue()),
         success: function (data) {
           if (id) {
@@ -74,9 +74,9 @@ block content
       l.ladda('start')
       $.ajax({
         method: "DELETE",
-        url: "/entries/#{id}",
+        url: "#{baseURL}/entries/#{id}",
         success: function () {
-          window.location.replace('/')
+          window.location.replace('#{baseURL}/')
         },
         error: function (err) {
           alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
