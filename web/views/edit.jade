@@ -54,7 +54,7 @@ block content
           if (id) {
             editor.setValue(data)
           } else {
-            window.location.replace('/edit/'+data._id)
+            window.location.replace('#{baseURL}/edit/'+data._id)
           }
         },
         error: function (err) {

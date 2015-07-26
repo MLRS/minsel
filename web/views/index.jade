@@ -4,28 +4,61 @@ block content
   h1= title
 
   table.table
-    thead
-      tr
-        th Lemma
-        th Senses
-        th Etymology
+    //- thead
+    //-   tr
+    //-     th Lemma
+    //-     th Senses
+    //-     th Etymology
     tbody
-      each d in data
+      for d in data
         tr
-          td
-            a(href="#{baseURL}/edit/#{d._id}")= d.lemma
-          td
+          td.col-md-2
+            div(style="font-size:2em;margin-bottom:0").lead
+              em= d.lemma
+              | &nbsp;
+              a(href="#{baseURL}/edit/#{d._id}").btn.btn-warning.btn-xs Edit
+            div
+              for v, k in d
+                if ['_id','lemma','senses','etymology'].indexOf(k) === -1
+                  if v === true
+                    !{k}
+                  else
+                    !{v}
+                  | 
+
+          td.col-md-6
+            h4 Senses
             ol
               if d.senses
                 for s in d.senses
                   li= s.description
-                    div.text-muted= s.etymologies
-          td
+                    div.text-muted= s.etymologies.join(', ')
+          td.col-md-4
             if d.etymology
+              h4 Arabic &amp; dialects
               for e in d.etymology
-                div
-                  strong= e.language
-                        | &nbsp;
-                  em= e.word
-                    | &nbsp;
-                  span (#{e.reference})
+                if !e.semitic
+                  div
+                    strong= e.language
+                          | &nbsp;
+                    if e.word_native
+                      span= e.word_native
+                      | &nbsp;
+                    em= e.word
+                      | &nbsp;
+                    if e.reference
+                      span.text-muted (#{e.reference})
+              h4 Wider Semitic Area
+              for e in d.etymology
+                if e.semitic
+                  div
+                    strong= e.language
+                          | &nbsp;
+                    if e.word_native
+                      span= e.word_native
+                      | &nbsp;
+                    em= e.word
+                      | &nbsp;
+                    if e.reference
+                      span.text-muted (#{e.reference})
+                    

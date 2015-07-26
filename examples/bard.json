@@ -4,7 +4,6 @@
     "gender" : "m",
     "senses" : [
         {
-            "sense_id" : 1,
             "description" : [
                 "cold, coldness, coolness, chilliness, freezing cold"
             ],
@@ -28,7 +27,6 @@
             ]
         },
         {
-            "sense_id" : 2,
             "description" : [
                 "wind in general",
                 "gust of wind"
@@ -39,7 +37,6 @@
             ]
         },
         {
-            "sense_id" : 3,
             "description" : [
                 "cold wind"
             ],
@@ -48,7 +45,6 @@
             ]
         },
         {
-            "sense_id" : 4,
             "description" : [
                 "cold weather, cold season",
                 "winter"
@@ -59,7 +55,6 @@
             ]
         },
         {
-            "sense_id" : 5,
             "description" : [
                 "catarrh",
                 "illnesses attributed to coldness"
@@ -74,6 +69,7 @@
     "etymology" : [
         {
             "language" : "Ar",
+            "word_native": "بَـرْد",
             "word" : "bard",
             "reference" : "Wehr 51"
         },

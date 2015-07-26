@@ -9,6 +9,10 @@
     "etymology"
   ],
   "properties": {
+    "_id": {
+      "type": "string",
+      "title": "ID"
+    },
     "lemma": {
       "title": "Lemma",
       "type": "string"
@@ -61,46 +65,53 @@
         "title": "Sense",
         "type": "object",
         "properties": {
-          "sense_id" : {
-            "title": "Sense ID",
-            "type": "integer",
-            "min": 1
-          },
           "description" : {
             "title": "Descriptions",
+            "description": "Different descriptions within the same sense",
             "type": "array",
             "format": "table",
             "items": {
-              "type": "string"
+              "type": "string",
+              "title": "Description"
             }
           },
           "etymologies" : {
-            "title": "Etymologies",
+            "title": "Usages in other languages",
+            "description": "Languages which share same sense",
             "type": "array",
             "format": "table",
             "items": {
-              "type": "string"
+              "type": "string",
+              "title": "Language"
             }
           }
         }
       }
     },
     "etymology": {
-      "title": "Etymological information",
+      "title": "Etymology",
       "type": "array",
       "format": "table",
       "items": {
         "format": "grid",
         "type": "object",
+        "title": "Etymological usage",
         "properties": {
           "language" : {
-            "type": "string"
+            "type": "string",
+            "title": "Language"
+          },
+          "word_native" : {
+            "type": "string",
+            "title": "Word (native script)"
           },
           "word" : {
-            "type": "string"
+            "type": "string",
+            "title": "Word"
           },
           "reference" : {
-            "type": "string"
+            "type": "string",
+            "title": "Reference"
           }
         }
       }
