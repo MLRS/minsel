@@ -1,0 +1,100 @@
+{
+    "abbrev" : "Ar",
+    "name": "Arabic",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "And",
+    "name": "Andalucian",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Mor",
+    "name": "Moorish",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Hass",
+    "name": "",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Alg-Tun",
+    "name": "Algerian Tunisian",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Eg",
+    "name": "",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Chad-Sud",
+    "name": "Chad Sudanses",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Lev",
+    "name": "Levantine Arabic",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Pal",
+    "name": "Palestinian",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Korm",
+    "name": "",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Kǝnd",
+    "name": "",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Ir",
+    "name": "",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Gulf",
+    "name": "",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Bah",
+    "name": "Bahraini",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Yem",
+    "name": "Yemeni",
+    "class": "arabic-modern"
+}
+{
+    "abbrev" : "Tham",
+    "name": "",
+    "class": "wider-semitic"
+}
+{
+    "abbrev" : "Ge",
+    "name": "",
+    "class": "wider-semitic"
+}
+{
+    "abbrev" : "Tna",
+    "name": "",
+    "class": "wider-semitic"
+}
+{
+    "abbrev" : "Te",
+    "name": "",
+    "class": "wider-semitic"
+}
+{
+    "abbrev" : "Amh",
+    "name": "Amharic",
+    "class": "wider-semitic"
+}
