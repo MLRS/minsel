@@ -1,100 +1,233 @@
 {
     "abbrev" : "Ar",
     "name": "Arabic",
-    "class": "arabic-modern"
+    "comment": "Classical, Modern Standard",
+    "class": "arabic"
 }
 {
     "abbrev" : "And",
-    "name": "Andalucian",
-    "class": "arabic-modern"
+    "name": "Andalusi",
+    "class": "arabic"
 }
 {
     "abbrev" : "Mor",
-    "name": "Moorish",
-    "class": "arabic-modern"
+    "name": "Moroccan",
+    "class": "arabic"
+}
+{
+    "abbrev" : "Maur",
+    "name": "Mauritanian",
+    "class": "arabic"
 }
 {
     "abbrev" : "Hass",
-    "name": "",
-    "class": "arabic-modern"
+    "name": "Hassaniya",
+    "class": "arabic"
+}
+{
+    "abbrev" : "Alg",
+    "name": "Algerian",
+    "class": "arabic"
 }
 {
     "abbrev" : "Alg-Tun",
-    "name": "Algerian Tunisian",
-    "class": "arabic-modern"
+    "name": "Algerian / Tunisian",
+    "class": "arabic"
+}
+{
+    "abbrev" : "Tun",
+    "name": "Tunisian",
+    "class": "arabic"
+}
+{
+    "abbrev" : "Lib",
+    "name": "Libyan",
+    "class": "arabic"
 }
 {
     "abbrev" : "Eg",
-    "name": "",
-    "class": "arabic-modern"
+    "name": "Egyptian",
+    "class": "arabic"
+}
+{
+    "abbrev" : "Sud",
+    "name": "Sudanese",
+    "class": "arabic"
 }
 {
     "abbrev" : "Chad-Sud",
-    "name": "Chad Sudanses",
-    "class": "arabic-modern"
+    "name": "Chado-Sudanese",
+    "class": "arabic"
 }
 {
     "abbrev" : "Lev",
-    "name": "Levantine Arabic",
-    "class": "arabic-modern"
+    "name": "Levantine",
+    "class": "arabic"
 }
 {
     "abbrev" : "Pal",
     "name": "Palestinian",
-    "class": "arabic-modern"
+    "class": "levantine-arabic"
+}
+{
+    "abbrev" : "Syr",
+    "name": "Syrian",
+    "class": "levantine-arabic"
+}
+{
+    "abbrev" : "Leb",
+    "name": "Lebanese",
+    "class": "levantine-arabic"
+}
+{
+    "abbrev" : "Jor",
+    "name": "Jordanian",
+    "class": "levantine-arabic"
 }
 {
     "abbrev" : "Korm",
-    "name": "",
-    "class": "arabic-modern"
+    "name": "Kormakiti",
+    "class": "levantine-arabic"
 }
 {
-    "abbrev" : "Kǝnd",
-    "name": "",
-    "class": "arabic-modern"
+    "abbrev" : "Anat",
+    "name": "Anatolian",
+    "comment": "Also Kǝnd",
+    "class": "arabic"
 }
 {
     "abbrev" : "Ir",
-    "name": "",
-    "class": "arabic-modern"
+    "name": "Iraqi",
+    "class": "arabic"
 }
 {
     "abbrev" : "Gulf",
-    "name": "",
-    "class": "arabic-modern"
+    "name": "Gulf",
+    "class": "arabic"
+}
+{
+    "abbrev" : "Kuw",
+    "name": "Kuwaiti",
+    "class": "arabic"
 }
 {
     "abbrev" : "Bah",
     "name": "Bahraini",
-    "class": "arabic-modern"
+    "class": "arabic"
 }
 {
     "abbrev" : "Yem",
     "name": "Yemeni",
-    "class": "arabic-modern"
+    "class": "arabic"
+}
+{
+    "abbrev" : "Qat",
+    "name": "Qatari",
+    "class": "arabic"
+}
+{
+    "abbrev" : "Emir",
+    "name": "Emirates",
+    "class": "arabic"
+}
+{
+    "abbrev" : "Om",
+    "name": "Omani",
+    "class": "arabic"
+}
+{
+    "abbrev" : "SA",
+    "name": "Saudi Arabian",
+    "class": "arabic"
+}
+{
+    "abbrev" : "Other-Ar",
+    "name": "Other (Arabic family)",
+    "class": "arabic"
+}
+
+{
+    "abbrev" : "Sem",
+    "name": "Semitic",
+    "class": "semitic"
+}
+{
+    "abbrev" : "Akk",
+    "name": "Akkadian",
+    "class": "semitic"
+}
+{
+    "abbrev" : "Ass",
+    "name": "Assyrian",
+    "class": "semitic"
+}
+{
+    "abbrev" : "Bab",
+    "name": "Babylonian",
+    "class": "semitic"
+}
+{
+    "abbrev" : "Ug",
+    "name": "Ugaritic",
+    "class": "semitic"
+}
+{
+    "abbrev" : "Aram",
+    "name": "Aramaic",
+    "class": "semitic"
+}
+{
+    "abbrev" : "Syc",
+    "name": "Syriac",
+    "class": "semitic"
+}
+{
+    "abbrev" : "Phoen",
+    "name": "Phoenician",
+    "class": "semitic"
+}
+{
+    "abbrev" : "Pun",
+    "name": "Punic",
+    "class": "semitic"
+}
+{
+    "abbrev" : "Heb",
+    "name": "Hebrew",
+    "class": "semitic"
 }
 {
     "abbrev" : "Tham",
-    "name": "",
-    "class": "wider-semitic"
+    "name": "Thamudic",
+    "class": "semitic"
+}
+{
+    "abbrev" : "ESA",
+    "name": "Epigraphic South Arabia",
+    "class": "semitic"
 }
 {
     "abbrev" : "Ge",
-    "name": "",
-    "class": "wider-semitic"
+    "name": "Ge'ez",
+    "class": "ethiopic"
 }
 {
     "abbrev" : "Tna",
-    "name": "",
-    "class": "wider-semitic"
+    "name": "Tigrinya",
+    "class": "ethiopic"
 }
 {
     "abbrev" : "Te",
-    "name": "",
-    "class": "wider-semitic"
+    "name": "Tigre",
+    "class": "ethiopic"
 }
 {
     "abbrev" : "Amh",
     "name": "Amharic",
-    "class": "wider-semitic"
+    "class": "ethiopic"
+}
+{
+    "abbrev" : "Other-Sem",
+    "name": "Other (Semitic)",
+    "class": "semitic"
 }

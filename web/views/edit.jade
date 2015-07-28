@@ -11,18 +11,21 @@ block content
   div#editor_holder
 
   script.
+    JSONEditor.defaults.options.ajax = true
+    JSONEditor.defaults.options.theme = 'bootstrap3'
+    JSONEditor.defaults.options.iconlib = 'bootstrap3'
     var element = document.getElementById('editor_holder')
     var editor = new JSONEditor(element, {
-      schema: !{schema},
-      theme: 'bootstrap3',
-      iconlib: 'bootstrap3',
+      schema: !{schema}
+    })
+    editor.on('ready', function () {
+      $("#btn_load").trigger('click')
     })
     $(document).ready(function () {
       // Apply ladda to buttons
       $("#buttons a.btn").each(function (x, elem) {
         $(elem).addClass('ladda-button').attr('data-style', 'expand-left')
       })
-      $("#btn_load").trigger('click')
     })
     $("#btn_load").click(function () {
       var l = $(this).ladda()

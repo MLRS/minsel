@@ -22,7 +22,7 @@ router.get('/add', function (req, res, next) {
     if (err) {
       // Not loading schema is not fatal!
       console.log(err)
-      data = "{}"
+      data = '{}'
     }
     res.render('edit', {
       title: 'New entry',
@@ -39,7 +39,7 @@ router.get('/edit/:id', function (req, res, next) {
     if (err) {
       // Not loading schema is not fatal!
       console.log(err)
-      data = "{}"
+      data = '{}'
     }
     res.render('edit', {
       title: 'Edit entry',

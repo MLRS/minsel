@@ -31,7 +31,7 @@ block content
             ol
               if d.senses
                 for s in d.senses
-                  li= s.description
+                  li= s.description.join(', ')
                     div.text-muted= s.etymologies.join(', ')
           td.col-md-4
             if d.etymology

@@ -57,6 +57,11 @@
       "type": "boolean",
       "format": "checkbox"
     },
+    "comment": {
+      "type": "string",
+      "title": "Comments",
+      "format": "textarea"
+    },
     "senses": {
       "title": "Word senses",
       "type": "array",
@@ -98,7 +103,7 @@
         "title": "Etymological usage",
         "properties": {
           "language" : {
-            "type": "string",
+            "string": "string",
             "title": "Language"
           },
           "word_native" : {

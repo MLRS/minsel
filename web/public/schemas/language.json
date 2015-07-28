@@ -1,0 +1,33 @@
+{
+  "title": "Language",
+  "type": "object",
+  "required": [
+    "abbrev",
+    "name",
+    "class"
+  ],
+  "properties": {
+    "abbrev" : {
+      "type": "string",
+      "title": "Abbreviation"
+    },
+    "name" : {
+      "type": "string",
+      "title": "Full English name"
+    },
+    "comment" : {
+      "type": "string"
+    },
+    "class" : {
+      "type": "string",
+      "title": "Language class",
+      "enum": [
+        "arabic",
+        "levantine-arabic",
+        "semitic",
+        "ethiopic"
+      ]
+    }
+  }
+
+}

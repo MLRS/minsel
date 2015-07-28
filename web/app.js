@@ -10,6 +10,7 @@ var db = monk('localhost:27017/minsel')
 
 var routes = require('./routes/index')
 var entries = require('./routes/entries')
+var languages = require('./routes/languages')
 
 var app = express()
 
@@ -42,6 +43,7 @@ app.use(function (req, res, next) {
 
 app.use('/', routes)
 app.use('/entries', entries)
+app.use('/languages', languages)
 
 // http://stackoverflow.com/a/27464258/98600
 app.use('/json-editor', express.static(__dirname + '/node_modules/json-editor/dist/'))
