@@ -1,9 +1,8 @@
-// http://stackoverflow.com/a/27893721/98600
 {
   "apps" : [{
     "name"   : "minsel",
     "script" : "bin/www",
-    "watch"  : "../",
+    "watch"  : ".",
     "log_date_format"  : "YYYY-MM-DD HH:mm Z",
   }]
 }
