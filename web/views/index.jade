@@ -21,9 +21,9 @@ block content
               for v, k in d
                 if ['_id','lemma','senses','etymology'].indexOf(k) === -1
                   if v === true
-                    !{k}
+                    = k
                   else
-                    !{v}
+                    = v
                   | 
 
           td.col-md-6

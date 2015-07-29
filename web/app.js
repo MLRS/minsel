@@ -8,6 +8,8 @@ var bodyParser = require('body-parser')
 var monk = require('monk')
 var db = monk('localhost:27017/minsel')
 
+var config = require('./server-config')
+
 var routes = require('./routes/index')
 var entries = require('./routes/entries')
 var languages = require('./routes/languages')
@@ -30,7 +32,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Base URL for views
 app.use(function (req, res, next) {
-  var config = require('./server-config')
   res.locals.baseURL = config.baseURL
   next()
 })
