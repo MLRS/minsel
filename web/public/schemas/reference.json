@@ -1,0 +1,26 @@
+{
+  "title": "Reference",
+  "type": "object",
+  "required": [
+    "abbrev",
+    "author",
+    "year"
+  ],
+  "properties": {
+    "abbrev" : {
+      "type": "string",
+      "title": "Abbreviation"
+    },
+    "author" : {
+      "type": "string",
+      "title": "Author name"
+    },
+    "year" : {
+      "type": "string",
+      "title": "Year"
+    },
+    "comment" : {
+      "type": "string"
+    }
+  }
+}

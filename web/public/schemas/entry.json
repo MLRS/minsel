@@ -56,8 +56,8 @@
         "variant": {
           "title": "Variant",
           "type": "integer",
-          "min": 1,
-          "max": 10
+          "minimum": 1,
+          "maximum": 10
         }
       }
     },
