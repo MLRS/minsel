@@ -132,7 +132,7 @@
           },
           "word" : {
             "type": "string",
-            "title": "Word"
+            "title": "Word (transcription)"
           },
           "reference" : {
             "type": "string",

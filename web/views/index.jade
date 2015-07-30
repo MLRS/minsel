@@ -2,7 +2,7 @@ extends layout
 
 mixin etym(es,lang_class)
   for e in es
-    if groups[lang_class].indexOf(e.language) > -1
+    if groups.hasOwnProperty(lang_class) && groups[lang_class].indexOf(e.language) > -1
       div
         strong= e.language
               | &nbsp;
