@@ -27,6 +27,17 @@ router.get('/enum', function (req, res, next) {
   })
 })
 
+/* Get all languages */
+router.get('/', function (req, res, next) {
+  var collection = req.db.get('languages')
+  collection.find({}, {'sort': {'class': 1, 'abbrev': 1}}, function (err, data) {
+    if (err) {
+      res.status(500).send(err)
+    }
+    res.json(data)
+  })
+})
+
 /* For auto-complete */
 router.get('/suggest', function (req, res, next) {
 

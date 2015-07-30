@@ -11,7 +11,25 @@ router.get('/', function (req, res, next) {
     if (err) {
       console.log(err)
     }
-    res.render('index', { title: 'Entries', data: data })
+
+    req.db.get('languages').find({}, function (err, data_ls) {
+      if (err) {
+        console.log(err)
+      }
+      var groups = {}
+      data_ls.forEach(function (item) {
+        if (!groups.hasOwnProperty(item.class)) {
+          groups[item.class] = []
+        }
+        groups[item.class].push(item.abbrev)
+      })
+
+      res.render('index', {
+        title: 'Entries',
+        data: data,
+        groups: groups
+      })
+    })
   })
 
 })

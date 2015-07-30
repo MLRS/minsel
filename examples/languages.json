@@ -62,7 +62,7 @@
 {
     "abbrev" : "Lev",
     "name": "Levantine",
-    "class": "arabic"
+    "class": "levantine-arabic"
 }
 {
     "abbrev" : "Pal",
@@ -204,7 +204,12 @@
 }
 {
     "abbrev" : "ESA",
-    "name": "Epigraphic South Arabia",
+    "name": "Epigraphic South Arabian",
+    "class": "semitic"
+}
+{
+    "abbrev" : "SAR",
+    "name": "South Arabian",
     "class": "semitic"
 }
 {
@@ -226,6 +231,11 @@
     "abbrev" : "Amh",
     "name": "Amharic",
     "class": "ethiopic"
+}
+{
+    "abbrev" : "Mand",
+    "name": "Mandaic",
+    "class": "semitic"
 }
 {
     "abbrev" : "Other-Sem",

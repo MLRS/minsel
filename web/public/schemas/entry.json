@@ -41,6 +41,26 @@
         "X"
       ]
     },
+    "root": {
+      "title": "Root",
+      "type": "object",
+      "required": [
+        "radicals"
+      ],
+      "properties": {
+        "radicals": {
+          "title": "Radicals",
+          "description": "C-C-C or C-C-C-C",
+          "type": "string"
+        },
+        "variant": {
+          "title": "Variant",
+          "type": "integer",
+          "min": 1,
+          "max": 10
+        }
+      }
+    },
     "gender": {
       "title": "Gender",
       "type": "string",
@@ -103,7 +123,7 @@
         "title": "Etymological usage",
         "properties": {
           "language" : {
-            "string": "string",
+            "type": "string",
             "title": "Language"
           },
           "word_native" : {

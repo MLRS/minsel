@@ -1,5 +1,19 @@
 extends layout
 
+mixin etym(es,lang_class)
+  for e in es
+    if groups[lang_class].indexOf(e.language) > -1
+      div
+        strong= e.language
+              | &nbsp;
+        if e.word_native
+          span= e.word_native
+          | &nbsp;
+        em= e.word
+          | &nbsp;
+        if e.reference
+          span.text-muted (#{e.reference})
+
 block content
   h1= title
 
@@ -19,13 +33,17 @@ block content
               a(href="#{baseURL}/edit/#{d._id}").btn.btn-warning.btn-xs Edit
             div
               for v, k in d
-                if ['_id','lemma','senses','etymology'].indexOf(k) === -1
+                if ['_id','lemma','root','senses','etymology'].indexOf(k) === -1
                   if v === true
                     = k
                   else
                     = v
                   | 
-
+              if d.root
+                div
+                  = d.root.radicals
+                  if d.root.variant
+                    sup.text-muted= d.root.variant
           td.col-md-6
             h4 Senses
             ol
@@ -36,29 +54,8 @@ block content
           td.col-md-4
             if d.etymology
               h4 Arabic &amp; dialects
-              for e in d.etymology
-                if !e.semitic
-                  div
-                    strong= e.language
-                          | &nbsp;
-                    if e.word_native
-                      span= e.word_native
-                      | &nbsp;
-                    em= e.word
-                      | &nbsp;
-                    if e.reference
-                      span.text-muted (#{e.reference})
+              +etym(d.etymology, 'arabic')
+              +etym(d.etymology, 'levantine-arabic')
               h4 Wider Semitic Area
-              for e in d.etymology
-                if e.semitic
-                  div
-                    strong= e.language
-                          | &nbsp;
-                    if e.word_native
-                      span= e.word_native
-                      | &nbsp;
-                    em= e.word
-                      | &nbsp;
-                    if e.reference
-                      span.text-muted (#{e.reference})
-                    
+              +etym(d.etymology, 'semitic')
+              +etym(d.etymology, 'ethiopic')

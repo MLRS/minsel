@@ -1,6 +1,9 @@
 {
     "lemma" : "bired",
     "pos" : "VERB",
+    "root": {
+      "radicals": "b-r-d"
+    },
     "intransitive" : true,
     "senses" : [
         {
@@ -52,7 +55,7 @@
         },
         {
             "description" : [
-                "to cool, wane, calm down (anger, enthousiasm, activity, etc.)"
+                "to cool, wane, calm down (anger, enthusiasm, activity, etc.)"
             ],
             "etymologies" : [
                 "Mor",
@@ -84,7 +87,7 @@
             "description" : [
                 "misc: to be impoverished, to run out (blood)",
                 "to absorb, amortize (a ball, bullet)",
-                "to dilute (wine), to leave meat to mature."
+                "to dilute (wine), to leave meat to mature"
             ],
             "etymologies" : [
                 "Alg-Tun"
@@ -174,28 +177,23 @@
         },
         {
             "language" : "Tham",
-            "semitic" : true,
             "word" : "brd",
             "reference" : "DRS 81"
         },
         {
             "language" : "Ge",
-            "semitic" : true,
             "word" : "barada (yǝbrǝd)"
         },
         {
             "language" : "Tna",
-            "semitic" : true,
             "word" : "bärädä"
         },
         {
             "language" : "Te",
-            "semitic" : true,
             "word" : "bärda"
         },
         {
             "language" : "Amh",
-            "semitic" : true,
             "word" : "bärrädä",
             "reference" : "CDG 103"
         }

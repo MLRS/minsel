@@ -1,6 +1,9 @@
 {
     "lemma" : "bard",
     "pos" : "NOUN",
+    "root": {
+      "radicals": "b-r-d"
+    },
     "gender" : "m",
     "senses" : [
         {
@@ -145,12 +148,10 @@
         },
         {
             "language" : "Mand",
-            "semitic" : true,
             "word" : "barda"
         },
         {
             "language" : "SAR",
-            "semitic" : true,
             "word" : "brd",
             "reference" : "DRS 81"
         }
