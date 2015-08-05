@@ -2,17 +2,19 @@ doctype html
 html
   head
     title Minsel
-    script(src='https://code.jquery.com/jquery-2.1.4.min.js')
+    script(src='//code.jquery.com/jquery-2.1.4.min.js')
 
-    link(rel='stylesheet', href='#{baseURL}/bootstrap/css/bootstrap.min.css')
-    script(src='#{baseURL}/bootstrap/js/bootstrap.min.js')
+    link(rel='stylesheet', href='#{baseURL}/module/bootstrap/dist/css/bootstrap.min.css')
+    script(src='#{baseURL}/module/bootstrap/dist/js/bootstrap.min.js')
 
-    script(src='#{baseURL}/json-editor/jsoneditor.min.js')
+    script(src='#{baseURL}/module/json-editor/dist/jsoneditor.min.js')
 
-    link(rel='stylesheet', href='#{baseURL}/ladda/ladda-themeless.min.css')
-    script(src='#{baseURL}/ladda/spin.min.js')
-    script(src='#{baseURL}/ladda/ladda.min.js')
-    script(src='#{baseURL}/ladda/ladda.jquery.min.js')
+    link(rel='stylesheet', href='#{baseURL}/module/ladda/dist/ladda-themeless.min.css')
+    script(src='#{baseURL}/module/ladda/dist/spin.min.js')
+    script(src='#{baseURL}/module/ladda/dist/ladda.min.js')
+    script(src='#{baseURL}/module/ladda/dist/ladda.jquery.min.js')
+      
+    script(src='#{baseURL}/javascripts/typeahead.bundle.js')
     style.
       .affix { top: 8px; right: 10px; z-index: 10000; }
     script.

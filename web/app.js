@@ -47,9 +47,10 @@ app.use('/entries', entries)
 app.use('/languages', languages)
 
 // http://stackoverflow.com/a/27464258/98600
-app.use('/json-editor', express.static(__dirname + '/node_modules/json-editor/dist/'))
-app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'))
-app.use('/ladda', express.static(__dirname + '/node_modules/ladda/dist/'))
+// app.use('/json-editor', express.static(__dirname + '/node_modules/json-editor/dist/'))
+// app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'))
+// app.use('/ladda', express.static(__dirname + '/node_modules/ladda/dist/'))
+app.use('/module', express.static(__dirname + '/node_modules/'))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

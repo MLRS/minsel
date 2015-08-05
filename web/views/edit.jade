@@ -9,6 +9,22 @@ block content
       a.btn.btn-default#btn_cancel(href='#{baseURL}/') Cancel
 
   div#editor_holder
+    
+  style.
+    .tt-menu.tt-open {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-width: 8em;      
+    }
+    .tt-menu.tt-open .tt-suggestion {
+      padding: 3px 5px;
+    }
+    .tt-menu.tt-open .tt-suggestion:hover,
+    .tt-menu.tt-open .tt-suggestion.tt-cursor {
+      cursor: pointer;
+      background-color: lemonchiffon;
+    }
 
   script.
     JSONEditor.defaults.options.ajax = true
@@ -21,12 +37,42 @@ block content
     editor.on('ready', function () {
       $("#btn_load").trigger('click')
     })
+    editor.on('change', function () {
+      var langs = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        local: !{JSON.stringify(languages)}
+      })
+      var refs = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        local: !{JSON.stringify(references)}
+      })
+      var opts = {
+        minLength: 1,
+        highlight: true
+      }
+      $('td[data-schemapath^="root.senses"][data-schemapath*="etymologies"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
+        name: 'language',
+        source: langs
+      })
+      $('td[data-schemapath^="root.etymology"][data-schemapath$="language"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
+        name: 'language',
+        source: langs
+      })
+      $('td[data-schemapath^="root.etymology"][data-schemapath$="reference"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
+        name: 'reference',
+        source: refs
+      })
+    })
+    
     $(document).ready(function () {
       // Apply ladda to buttons
       $("#buttons a.btn").each(function (x, elem) {
         $(elem).addClass('ladda-button').attr('data-style', 'expand-left')
       })
     })
+    
     $("#btn_load").click(function () {
       var l = $(this).ladda()
       l.ladda('start')

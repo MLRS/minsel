@@ -11,9 +11,13 @@
       "type": "string",
       "title": "Abbreviation"
     },
-    "author" : {
-      "type": "string",
-      "title": "Author name"
+    "authors" : {
+      "type": "arrays",
+      "title": "Author names",
+      "items": {
+        "type": "string",
+        "title": "Author"
+      }
     },
     "year" : {
       "type": "string",
