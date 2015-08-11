@@ -9,10 +9,10 @@ html
 
     script(src='#{baseURL}/module/json-editor/dist/jsoneditor.min.js')
 
-    link(rel='stylesheet', href='#{baseURL}/module/ladda/dist/ladda-themeless.min.css')
-    script(src='#{baseURL}/module/ladda/dist/spin.min.js')
-    script(src='#{baseURL}/module/ladda/dist/ladda.min.js')
-    script(src='#{baseURL}/module/ladda/dist/ladda.jquery.min.js')
+    //- link(rel='stylesheet', href='#{baseURL}/module/ladda/dist/ladda-themeless.min.css')
+    //- script(src='#{baseURL}/module/ladda/dist/spin.min.js')
+    //- script(src='#{baseURL}/module/ladda/dist/ladda.min.js')
+    //- script(src='#{baseURL}/module/ladda/dist/ladda.jquery.min.js')
       
     script(src='#{baseURL}/javascripts/typeahead.bundle.js')
     style.
@@ -24,6 +24,10 @@ html
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       ga('create', 'UA-34654961-4', 'auto');
       ga('send', 'pageview');
+    script.
+      $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
   body(role="document",style="margin-top:4em")
     nav.navbar.navbar-default.navbar-fixed-top
       .container

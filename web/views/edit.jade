@@ -2,11 +2,13 @@ extends layout
 
 block content
   h1= title
-    div.btn-group#buttons(data-spy="affix",data-offset-top="30",style="margin-left:1em")
-      a.btn.btn-primary#btn_load Reset
-      a.btn.btn-success#btn_save Save
-      a.btn.btn-danger#btn_delete Delete
-      a.btn.btn-default#btn_cancel(href='#{baseURL}/') Cancel
+    div(style="display:inline-block;margin-left:1em",data-spy="affix",data-offset-top="30")
+      img(src="#{baseURL}/images/ajax-loader.gif",style="visibility:hidden")#loading
+      div.btn-group#buttons
+        a.btn.btn-primary#btn_load Reset
+        a.btn.btn-success#btn_save Save
+        a.btn.btn-danger#btn_delete Delete
+        a.btn.btn-default#btn_cancel(href='#{baseURL}/') Cancel
 
   div#editor_holder
     
@@ -25,8 +27,19 @@ block content
       cursor: pointer;
       background-color: lemonchiffon;
     }
+    .affix {
+      top: 0px;
+      right: 10px;
+      z-index: 10000;
+    }
 
   script.
+    function show_loading() {
+      $('#loading').css('visibility','visible')
+    }
+    function hide_loading() {
+      $('#loading').css('visibility','hidden')
+    }
     JSONEditor.defaults.options.ajax = true
     JSONEditor.defaults.options.theme = 'bootstrap3'
     JSONEditor.defaults.options.iconlib = 'bootstrap3'
@@ -66,16 +79,8 @@ block content
       })
     })
     
-    $(document).ready(function () {
-      // Apply ladda to buttons
-      $("#buttons a.btn").each(function (x, elem) {
-        $(elem).addClass('ladda-button').attr('data-style', 'expand-left')
-      })
-    })
-    
     $("#btn_load").click(function () {
-      var l = $(this).ladda()
-      l.ladda('start')
+      show_loading()
       $.ajax({
         method: "GET",
         url: "#{baseURL}/entries/#{id}",
@@ -86,14 +91,13 @@ block content
           alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
         },
         complete: function () {
-          l.ladda('stop')
+          hide_loading()
         }
       })
     })
     $("#btn_save").click(function () {
       var id = "#{id}" // null when adding
-      var l = $(this).ladda()
-      l.ladda('start')
+      show_loading()
       $.ajax({
         method: "POST",
         contentType: "application/json",
@@ -110,7 +114,7 @@ block content
           alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
         },
         complete: function () {
-          l.ladda('stop')
+          hide_loading()
         }
       })
     })
@@ -119,8 +123,7 @@ block content
       if (!confirm("Really delete this entry?"))
         return false;
 
-      var l = $(this).ladda()
-      l.ladda('start')
+      show_loading()
       $.ajax({
         method: "DELETE",
         url: "#{baseURL}/entries/#{id}",
@@ -131,7 +134,7 @@ block content
           alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
         },
         complete: function () {
-          l.ladda('stop')
+          hide_loading()
         }
       })
     })

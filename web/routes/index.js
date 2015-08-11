@@ -7,31 +7,55 @@ const schema_file = 'public/schemas/entry.json'
 
 /* GET home page - list entries */
 router.get('/', function (req, res, next) {
-  var collection = req.db.get('entries')
-  collection.find({}, function (err, data) {
-    if (err) {
-      console.log(err)
-    }
+  var db = req.db
+  async.parallel({
+      entries: function (callback) {
+        db.get('entries').find({}, callback)
+      },
+      languages: function (callback) {
+        db.get('languages').find({}, function (err, data) {
+          var assoc = {} // abbrev : obj
+          data.forEach(function (item) {
+            assoc[item.abbrev] = item
+          })
+          callback(err, assoc)
+        })
+      },
+      references: function (callback) {
+        db.get('references').find({}, function (err, data) {
+          var assoc = {} // abbrev : obj
+          data.forEach(function (item) {
+            assoc[item.abbrev] = item
+          })
+          callback(err, assoc)
+        })
+      }
+    },
 
-    req.db.get('languages').find({}, function (err, data_ls) {
+    // All tasks done
+    function (err, data) {
       if (err) {
         console.log(err)
       }
+
       var groups = {}
-      data_ls.forEach(function (item) {
+      for (var abbrev in data.languages) {
+        var item = data.languages[abbrev]
         if (!groups.hasOwnProperty(item.class)) {
           groups[item.class] = []
         }
         groups[item.class].push(item.abbrev)
-      })
+      }
 
       res.render('index', {
         title: 'Entries',
-        data: data,
-        groups: groups
+        data: data.entries,
+        groups: groups,
+        languages: data.languages,
+        references: data.references
       })
+
     })
-  })
 
 })
 

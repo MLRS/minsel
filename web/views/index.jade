@@ -4,17 +4,49 @@ mixin etym(es,lang_class)
   for e in es
     if groups.hasOwnProperty(lang_class) && groups[lang_class].indexOf(e.language) > -1
       div
-        strong= e.language
-              | &nbsp;
+        +language(e.language)
+        | &nbsp;
         if e.word_native
           span= e.word_native
           | &nbsp;
         em= e.word
           | &nbsp;
         if e.reference
-          span.text-muted (#{e.reference})
+          +reference(e.reference)
+
+mixin language(abbrev)
+  if languages[abbrev]
+    span.language(data-toggle="tooltip",data-placement="bottom",title=languages[abbrev]['name'])= abbrev
+  else
+    span.language= abbrev
+      
+mixin reference(ref_str)
+  - var match = ref_str.match(/^[\w\d]+/)
+  - var abbrev = match ? match[0] : ref_str
+  - var ref = references[abbrev]
+  if ref
+    - var tt = ref.authors.join(', ')
+    - if (ref.year) tt += ' (' + ref.year + ')'
+    span.reference(data-toggle="tooltip",data-placement="bottom",title=tt)= abbrev
+  else
+    span.reference= abbrev
 
 block content
+  
+  style.
+    [data-toggle] {
+      border-bottom: 1px dotted #ccc;
+    }
+    .senses .language {
+      color: #777;
+    }
+    .etymology .reference {
+      color: #777;
+    }
+    .etymology .language {
+      font-weight: bold;
+    }
+  
   h1= title
 
   table.table
@@ -44,14 +76,17 @@ block content
                   = d.root.radicals
                   if d.root.variant
                     sup.text-muted= d.root.variant
-          td.col-md-6
+          td.col-md-6.senses
             h4 Senses
             ol
               if d.senses
                 for s in d.senses
                   li= s.description.join(', ')
-                    div.text-muted= s.etymologies.join(', ')
-          td.col-md-4
+                    div.text-muted
+                      for l in s.etymologies
+                        +language(l)
+                        | , 
+          td.col-md-4.etymology
             if d.etymology
               h4 Arabic &amp; dialects
               +etym(d.etymology, 'arabic')
