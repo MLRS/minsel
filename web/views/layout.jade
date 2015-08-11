@@ -33,7 +33,13 @@ html
       .container
         .navbar-header
           a.navbar-brand(href="#{baseURL}/",style="color:firebrick") Minsel Etymological Dictionary
-        .navbar-collapse.collapse
+          form(role="search",action="#{baseURL}/",method="GET").navbar-form.navbar-right
+            div.input-group
+              - var search_term = (query) ? query.s : ''
+              input(type="search",name="s",autofocus="true",placeholder="Search",value=search_term).form-control
+              div.input-group-btn
+                button(type="submit").btn.btn-primary
+                  span.glyphicon.glyphicon-search
           ul.nav.navbar-nav
             li
               a(href="#{baseURL}/") List entries

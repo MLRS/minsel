@@ -6,11 +6,21 @@ var async = require('async')
 const schema_file = 'public/schemas/entry.json'
 
 /* GET home page - list entries */
+/* Could contain a serach term in s */
 router.get('/', function (req, res, next) {
   var db = req.db
   async.parallel({
       entries: function (callback) {
-        db.get('entries').find({}, callback)
+        var conds = {}
+        var opts = {
+          'sort': {
+            'lemma': 1
+          }
+        }
+        if (req.query.s) {
+          conds['lemma'] = {'$regex': req.query.s}
+        }
+        db.get('entries').find(conds, opts, callback)
       },
       languages: function (callback) {
         db.get('languages').find({}, function (err, data) {
@@ -47,8 +57,15 @@ router.get('/', function (req, res, next) {
         groups[item.class].push(item.abbrev)
       }
 
+      var title
+      if (req.query.s) {
+        title = 'Entries matching "' + req.query.s + '"'
+      } else {
+        title = 'All entries'
+      }
       res.render('index', {
-        title: 'Entries',
+        title: title,
+        query: req.query,
         data: data.entries,
         groups: groups,
         languages: data.languages,

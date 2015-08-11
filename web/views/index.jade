@@ -47,7 +47,9 @@ block content
       font-weight: bold;
     }
   
-  h1= title
+  h2= title
+    if query.s
+      a.btn.btn-default(href="#{baseURL}/",style="margin-left:1em") Clear
 
   table.table
     //- thead
