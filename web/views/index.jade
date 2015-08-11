@@ -27,9 +27,9 @@ mixin reference(ref_str)
   if ref
     - var tt = ref.authors.join(', ')
     - if (ref.year) tt += ' (' + ref.year + ')'
-    span.reference(data-toggle="tooltip",data-placement="bottom",title=tt)= abbrev
+    span.reference(data-toggle="tooltip",data-placement="bottom",title=tt)= ref_str
   else
-    span.reference= abbrev
+    span.reference= ref_str
 
 block content
   
@@ -48,7 +48,7 @@ block content
     }
   
   h2= title
-    if query.s
+    if query && query.s
       a.btn.btn-default(href="#{baseURL}/",style="margin-left:1em") Clear
 
   table.table
