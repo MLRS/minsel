@@ -14,7 +14,8 @@ router.get('/', function (req, res, next) {
         var conds = {}
         var opts = {
           'sort': {
-            'lemma': 1
+            'root.radicals': 1,
+            'lemma': 1,
           }
         }
         if (req.query.s) {

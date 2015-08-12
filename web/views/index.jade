@@ -47,9 +47,19 @@ block content
       font-weight: bold;
     }
   
+  if !query || !query.s
+    div.jumbotron(style="margin-top:2em")
+      h1
+        span(style="color:firebrick") Minsel 
+        | Etymological Dictionary
+      p Minsel is a new etymological dictionary for Maltese, being compiled by
+        | researchers at the Department of Oriental Studies at the
+        | University of Malta.
+        | There's currently not much here, but new entries are being added slowly.
+  
   h2= title
     if query && query.s
-      a.btn.btn-default(href="#{baseURL}/",style="margin-left:1em") Clear
+      a.btn.btn-link(href="#{baseURL}/",style="margin-left:1em") Clear
 
   table.table
     //- thead
