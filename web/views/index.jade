@@ -33,20 +33,6 @@ mixin reference(ref_str)
 
 block content
   
-  style.
-    [data-toggle] {
-      border-bottom: 1px dotted #ccc;
-    }
-    .senses .language {
-      color: #777;
-    }
-    .etymology .reference {
-      color: #777;
-    }
-    .etymology .language {
-      font-weight: bold;
-    }
-  
   if !query || !query.s
     div.jumbotron(style="margin-top:2em")
       h1
