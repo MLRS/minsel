@@ -39,6 +39,7 @@ router.get('/', function (req, res, next) {
 })
 
 /* For auto-complete */
+/* This is not currently used... */
 router.get('/suggest', function (req, res, next) {
 
   function capitalizeFirstLetter (s) {

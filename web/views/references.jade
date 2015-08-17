@@ -1,0 +1,30 @@
+extends layout
+
+mixin reference(ref_str)
+  - var match = ref_str.match(/^[\w\d]+/)
+  - var abbrev = match ? match[0] : ref_str
+  - var ref = references[abbrev]
+  if ref
+    - var tt = ref.authors.join(', ')
+    - if (ref.year) tt += ' (' + ref.year + ')'
+    span.reference(data-toggle="tooltip",data-placement="bottom",title=tt)= ref_str
+  else
+    span.reference= ref_str
+
+block content
+  
+  h2= title
+
+  table.table.table-striped
+    thead
+      tr
+        th Abbrev
+        th Authors
+        th Year
+    tbody
+      for d in data
+        tr
+          td
+            strong= d.abbrev
+          td= d.authors
+          td= d.year

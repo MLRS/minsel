@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var fs = require('fs')
 var async = require('async')
+var passport = require('passport')
 
 const schema_file = 'public/schemas/entry.json'
 
@@ -128,13 +129,39 @@ var add_edit = function (req, res, next, id) {
 }
 
 /* GET add */
-router.get('/add', function (req, res, next) {
-  add_edit(req, res, next, null)
-})
+router.get('/add',
+  passport.authenticate('basic', {
+    session: false
+  }),
+  function (req, res, next) {
+    add_edit(req, res, next, null)
+  }
+)
 
 /* GET edit */
-router.get('/edit/:id', function (req, res, next) {
-  add_edit(req, res, next, req.params.id)
-})
+router.get('/edit/:id',
+  passport.authenticate('basic', {
+    session: false
+  }),
+  function (req, res, next) {
+    add_edit(req, res, next, req.params.id)
+  }
+)
+
+/* GET references */
+router.get('/references',
+  function (req, res, next) {
+    var collection = req.db.get('references')
+    collection.find({}, {'sort': {'abbrev': 1, 'year': 1}}, function (err, data) {
+      if (err) {
+        res.status(500).send(err)
+      }
+      res.render('references', {
+        title: 'References',
+        data: data
+      })
+    })
+  }
+)
 
 module.exports = router
