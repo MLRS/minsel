@@ -79,39 +79,38 @@ router.get('/', function (req, res, next) {
 })
 
 /* Load stuff we need for add/edit */
-var add_edit = function (req, res, next, id) {
+var add_edit = function (req, res, next, params) {
   async.parallel({
-      schema: function (callback) {
-        fs.readFile(schema_file, 'utf8', function (err, data) {
-          if (err) data = '{}'
-          callback(err, data)
-        })
-      },
-      languages: function (callback) {
-        var collection = req.db.get('languages')
-        collection.find({}, function (err, data) {
-          var names = []
-          if (!err) {
-            names = data.map(function (item) {
-              return item.abbrev
-            })
-          }
-          callback(err, names)
-        })
-      },
-      references: function (callback) {
-        var collection = req.db.get('references')
-        collection.find({}, function (err, data) {
-          var names = []
-          if (!err) {
-            names = data.map(function (item) {
-              return item.abbrev
-            })
-          }
-          callback(err, names)
-        })
-      }
+    schema: function (callback) {
+      fs.readFile(schema_file, 'utf8', function (err, data) {
+        if (err) data = '{}'
+        callback(err, data)
+      })
     },
+    languages: function (callback) {
+      var collection = req.db.get('languages')
+      collection.find({}, function (err, data) {
+        var names = []
+        if (!err) {
+          names = data.map(function (item) {
+            return item.abbrev
+          })
+        }
+        callback(err, names)
+      })
+    },
+    references: function (callback) {
+      var collection = req.db.get('references')
+      collection.find({}, function (err, data) {
+        var names = []
+        if (!err) {
+          names = data.map(function (item) {
+            return item.abbrev
+          })
+        }
+        callback(err, names)
+      })
+    }},
 
     // All tasks done
     function (err, data) {
@@ -119,13 +118,14 @@ var add_edit = function (req, res, next, id) {
         console.log(err)
       }
       res.render('edit', {
-        title: 'New entry',
+        title: params.title,
         schema: data.schema,
         languages: data.languages,
         references: data.references,
-        id: id
+        id: params.id
       })
-    })
+    }
+  )
 }
 
 /* GET add */
@@ -134,7 +134,10 @@ router.get('/add',
     session: false
   }),
   function (req, res, next) {
-    add_edit(req, res, next, null)
+    add_edit(req, res, next, {
+      'title': 'New entry',
+      'id': null
+    })
   }
 )
 
@@ -144,7 +147,10 @@ router.get('/edit/:id',
     session: false
   }),
   function (req, res, next) {
-    add_edit(req, res, next, req.params.id)
+    add_edit(req, res, next, {
+      'title': 'Edit entry',
+      'id': req.params.id
+    })
   }
 )
 
