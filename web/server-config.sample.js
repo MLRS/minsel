@@ -1,5 +1,7 @@
 // server-specific settings
 module.exports = {
   baseURL: '',
-  salt: ''
+  salt: '',
+  analyticsCode: null,
+  sessionSecret: ''
 }

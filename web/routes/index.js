@@ -128,11 +128,11 @@ var add_edit = function (req, res, next, params) {
   )
 }
 
+var ensureLogin = require('connect-ensure-login')
+
 /* GET add */
 router.get('/add',
-  passport.authenticate('basic', {
-    session: false
-  }),
+  ensureLogin.ensureLoggedIn(),
   function (req, res, next) {
     add_edit(req, res, next, {
       'title': 'New entry',
@@ -143,9 +143,7 @@ router.get('/add',
 
 /* GET edit */
 router.get('/edit/:id',
-  passport.authenticate('basic', {
-    session: false
-  }),
+  ensureLogin.ensureLoggedIn(),
   function (req, res, next) {
     add_edit(req, res, next, {
       'title': 'Edit entry',
@@ -167,6 +165,33 @@ router.get('/references',
         data: data
       })
     })
+  }
+)
+
+/* GET login */
+router.get('/login',
+  function (req, res, next) {
+    res.render('login', {
+      title: 'Login'
+    })
+  }
+)
+
+/* POST login */
+router.post('/login',
+  passport.authenticate('local', {
+    failureRedirect: '/login'
+  }),
+  function(req, res) {
+    res.redirect('/')
+  }
+)
+
+/* GET logout */
+router.get('/logout',
+  function (req, res) {
+    req.logout()
+    res.redirect('/')
   }
 )
 

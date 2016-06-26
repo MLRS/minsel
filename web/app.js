@@ -8,7 +8,7 @@ var app = express()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'jade')
+app.set('view engine', 'pug')
 app.locals.pretty = true
 
 app.use(logger('dev'))
@@ -22,11 +22,18 @@ app.use(express.static(path.join(__dirname, 'public')))
 var config = require('./server-config')
 app.use(function (req, res, next) {
   res.locals.baseURL = config.baseURL
+  res.locals.analyticsCode = config.analyticsCode
   next()
 })
 
+app.use(require('express-session')({
+  secret: config.sessionSecret,
+  resave: false,
+  saveUninitialized: false
+}))
+
 // Database
-var monk = require('monk')
+var monk = require('monkii')
 var db = monk('localhost:27017/minsel')
 // Make our db accessible to our router
 app.use(function (req, res, next) {
@@ -36,21 +43,40 @@ app.use(function (req, res, next) {
 
 // Authentication
 var passport = require('passport')
-var BasicStrategy = require('passport-http').BasicStrategy
-passport.use(new BasicStrategy(
+var LocalStrategy = require('passport-local').Strategy
+passport.use(new LocalStrategy({
+    session: true
+  },
   function (username, password, done) {
     db.get('users').findOne({username: username}, function (err, user) {
       var salted = config.salt + password
       var shasum = require('crypto').createHash('sha1')
       var hashed = shasum.update(salted).digest('hex')
       if (err) { return done(err) }
-      if (!user) { return done(null, false, {message: 'Unknown user.'}) }
-      if (user.password !== hashed) { return done(null, false, {message: 'Incorrect password.'}) }
+      if (!user) { return done(null, false, {message: 'Unknown user.'}) } // TODO show these messages
+      if (user.password !== hashed) { return done(null, false, {message: 'Incorrect password.'}) } // TODO show these messages
       return done(null, user)
     })
   }
 ))
+passport.serializeUser(function (user, cb) {
+  cb(null, user._id)
+})
+passport.deserializeUser(function (id, cb) {
+  db.get('users').findById(id, function (err, user) {
+    if (err) { return cb(err) }
+    cb(null, user)
+  })
+})
 app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(function (req, res, next) {
+  if (req.user) {
+    res.locals.user = req.user
+  }
+  next()
+})
 
 app.use('/', require('./routes/index'))
 app.use('/entries', require('./routes/entries'))

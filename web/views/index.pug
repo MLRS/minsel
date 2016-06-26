@@ -45,7 +45,7 @@ block content
   
   h2= title
     if query && query.s
-      a.btn.btn-link(href="#{baseURL}/",style="margin-left:1em") Clear
+      a.btn.btn-link(href=baseURL+"/",style="margin-left:1em") Clear
 
   table.table
     //- thead
@@ -60,7 +60,7 @@ block content
             div(style="font-size:2em;margin-bottom:0").lead
               em= d.lemma
               | &nbsp;
-              a(href="#{baseURL}/edit/#{d._id}").btn.btn-warning.btn-xs Edit
+              a(href=baseURL+"/edit/"+d._id).btn.btn-warning.btn-xs Edit
             div
               for v, k in d
                 if ['_id','lemma','root','senses','etymology'].indexOf(k) === -1

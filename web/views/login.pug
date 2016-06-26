@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1 Login
+  
+  form.form-horizontal(method='post')
+    .form-group
+      label.col-sm-1.control-label(for='inputUsername') Username
+      .col-sm-3
+        input#inputUsername.form-control(type='text',name='username')
+    .form-group
+      label.col-sm-1.control-label(for='inputPassword') Password
+      .col-sm-3
+        input#inputPassword.form-control(type='password',name='password')
+    //- .form-group
+    //-   .col-sm-offset-2.col-sm-10
+    //-     .checkbox
+    //-       label
+    //-         input(type='checkbox')
+    //-         |  Remember me
+    .form-group
+      .col-sm-offset-1.col-sm-10
+        button.btn.btn-primary(type='submit') Sign in
+  
