@@ -169,6 +169,7 @@ router.get('/references',
 )
 
 // --- Login stuff
+var config = require('../server-config')
 
 /* GET login */
 router.get('/login',
@@ -183,11 +184,11 @@ router.get('/login',
 /* POST login */
 router.post('/login',
   passport.authenticate('local', {
-    failureRedirect: '/login',
+    failureRedirect: config.baseURL+'/login',
     failureFlash: true
   }),
   function(req, res) {
-    res.redirect('/')
+    res.redirect(config.baseURL+'/')
   }
 )
 
@@ -195,7 +196,7 @@ router.post('/login',
 router.get('/logout',
   function (req, res) {
     req.logout()
-    res.redirect('/')
+    res.redirect(config.baseURL+'/')
   }
 )
 
