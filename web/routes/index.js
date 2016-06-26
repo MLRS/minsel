@@ -168,11 +168,14 @@ router.get('/references',
   }
 )
 
+// --- Login stuff
+
 /* GET login */
 router.get('/login',
   function (req, res, next) {
     res.render('login', {
-      title: 'Login'
+      title: 'Login',
+      messages: req.flash()
     })
   }
 )
@@ -180,7 +183,8 @@ router.get('/login',
 /* POST login */
 router.post('/login',
   passport.authenticate('local', {
-    failureRedirect: '/login'
+    failureRedirect: '/login',
+    failureFlash: true
   }),
   function(req, res) {
     res.redirect('/')

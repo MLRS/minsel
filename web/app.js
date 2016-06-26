@@ -3,6 +3,7 @@ var path = require('path')
 var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
+var flash = require('connect-flash')
 
 var app = express()
 
@@ -71,12 +72,15 @@ passport.deserializeUser(function (id, cb) {
 app.use(passport.initialize())
 app.use(passport.session())
 
+// Make user info available to templates
 app.use(function (req, res, next) {
   if (req.user) {
     res.locals.user = req.user
   }
   next()
 })
+
+app.use(flash())
 
 app.use('/', require('./routes/index'))
 app.use('/entries', require('./routes/entries'))

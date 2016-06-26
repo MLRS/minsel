@@ -3,6 +3,9 @@ extends layout
 block content
   h1 Login
   
+  - if (messages.error)
+    .alert.alert-warning= messages.error
+  
   form.form-horizontal(method='post')
     .form-group
       label.col-sm-1.control-label(for='inputUsername') Username
@@ -12,12 +15,6 @@ block content
       label.col-sm-1.control-label(for='inputPassword') Password
       .col-sm-3
         input#inputPassword.form-control(type='password',name='password')
-    //- .form-group
-    //-   .col-sm-offset-2.col-sm-10
-    //-     .checkbox
-    //-       label
-    //-         input(type='checkbox')
-    //-         |  Remember me
     .form-group
       .col-sm-offset-1.col-sm-10
         button.btn.btn-primary(type='submit') Sign in

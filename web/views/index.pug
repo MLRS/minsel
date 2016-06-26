@@ -59,8 +59,9 @@ block content
           td.col-md-2
             div(style="font-size:2em;margin-bottom:0").lead
               em= d.lemma
-              | &nbsp;
-              a(href=baseURL+"/edit/"+d._id).btn.btn-warning.btn-xs Edit
+              - if (user)
+                | &nbsp;
+                a(href=baseURL+"/edit/"+d._id).btn.btn-warning.btn-xs Edit
             div
               for v, k in d
                 if ['_id','lemma','root','senses','etymology'].indexOf(k) === -1

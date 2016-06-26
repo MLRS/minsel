@@ -3,12 +3,12 @@ extends layout
 block content
   h1= title
     div(style="display:inline-block;margin-left:1em",data-spy="affix",data-offset-top="30")
-      img(src="#{baseURL}/images/ajax-loader.gif",style="visibility:hidden")#loading
+      img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden")#loading
       div.btn-group#buttons
         a.btn.btn-primary#btn-load Reset
         a.btn.btn-success#btn-save Save
         a.btn.btn-danger#btn-delete Delete
-        a.btn.btn-default#btn-cancel(href='#{baseURL}/') Cancel
+        a.btn.btn-default#btn-cancel(href=baseURL+"/") Cancel
 
   div#editor-holder
     
