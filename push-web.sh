@@ -7,10 +7,10 @@ FLAGS="--archive --compress --verbose --exclude=server-config.js --exclude=.DS_S
 echo "Push"
 if [ "$1" = "-wet" ]; then
   echo "(For real)"
-  rsync           $FLAGS $LOCALDIR linguist@mlrs.research.um.edu.mt:$REMOTEDIR
+  rsync           $FLAGS $LOCALDIR mlrs.research.um.edu.mt:$REMOTEDIR
 else
   echo "(Dry-run)"
-  rsync --dry-run $FLAGS $LOCALDIR linguist@mlrs.research.um.edu.mt:$REMOTEDIR
+  rsync --dry-run $FLAGS $LOCALDIR mlrs.research.um.edu.mt:$REMOTEDIR
   echo
   echo "### This was just a dry-run. To push for real, use the flag '-wet' ###"
 fi

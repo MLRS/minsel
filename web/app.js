@@ -19,12 +19,23 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Server specific config
-// Base URL for views
 var config = require('./server-config')
 app.use(function (req, res, next) {
   res.locals.baseURL = config.baseURL
   res.locals.analyticsCode = config.analyticsCode
   next()
+})
+
+// Stop if maintenance mode
+app.use(function (req, res, next) {
+  if (config.maintenanceMode) {
+    res.status('503')
+    res.header('Retry-After', 120) // two minutes
+    res.send('This site is down for maintenance, please try again later.')
+    res.end()
+  } else {
+    next()
+  }
 })
 
 app.use(require('express-session')({
