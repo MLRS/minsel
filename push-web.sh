@@ -1,8 +1,8 @@
 #!/bin/sh
 
 LOCALDIR=web/
-REMOTEDIR=/var/www/resources/minsel
-FLAGS="--archive --compress --verbose --exclude=server-config.js --exclude=.DS_Store --exclude=.git --exclude=node_modules --log-file=push.log"
+REMOTEDIR=/var/www/resources/minsel/
+FLAGS="--recursive --compress --verbose --exclude=server-config.js --exclude=.DS_Store --exclude=.git --exclude=node_modules --log-file=push.log"
 
 echo "Push"
 if [ "$1" = "-wet" ]; then

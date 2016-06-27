@@ -1,15 +1,15 @@
 var express = require('express')
 var router = express.Router()
 var passport = require('passport')
+// var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
+var ensureLoggedInAPI = require('../middlewares/ensureLoggedInAPI')
 
 // -- CRUD API ---------------------------------------------------------------
 
 /* Create = POST */
 /* Content-Type: application/json */
 router.post('/',
-  passport.authenticate('basic', {
-    session: false
-  }),
+  ensureLoggedInAPI(),
   function (req, res, next) {
     var collection = req.db.get('entries')
     collection.insert(req.body, function (err, data) {
@@ -47,9 +47,7 @@ router.get('/:id', function (req, res, next) {
 /* Content-Type: application/json */
 /* _id in body should match :id or be omitted (otherwise will fail) */
 router.post('/:id',
-  passport.authenticate('basic', {
-    session: false
-  }),
+  ensureLoggedInAPI(),
   function (req, res, next) {
     var collection = req.db.get('entries')
     collection.updateById(req.params.id, req.body, function (err) {
@@ -68,9 +66,7 @@ router.post('/:id',
 
 /* Delete = DELETE with ID */
 router.delete('/:id',
-  passport.authenticate('basic', {
-    session: false
-  }),
+  ensureLoggedInAPI(),
   function (req, res, next) {
     var collection = req.db.get('entries')
     collection.removeById(req.params.id, function (err) {

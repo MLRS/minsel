@@ -3,8 +3,13 @@ var router = express.Router()
 var fs = require('fs')
 var async = require('async')
 var passport = require('passport')
+// var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
+var ensureLoggedIn = require('../middlewares/ensureLoggedIn')
+var config = require('../server-config')
 
 const schema_file = 'public/schemas/entry.json'
+
+// -- Main pages -------------------------------------------------------------
 
 /* GET home page - list entries */
 /* Could contain a serach term in s */
@@ -128,11 +133,9 @@ var add_edit = function (req, res, next, params) {
   )
 }
 
-var ensureLogin = require('connect-ensure-login')
-
 /* GET add */
 router.get('/add',
-  ensureLogin.ensureLoggedIn(),
+  ensureLoggedIn(config.baseURL+'/login'),
   function (req, res, next) {
     add_edit(req, res, next, {
       'title': 'New entry',
@@ -143,7 +146,7 @@ router.get('/add',
 
 /* GET edit */
 router.get('/edit/:id',
-  ensureLogin.ensureLoggedIn(),
+  ensureLoggedIn(config.baseURL+'/login'),
   function (req, res, next) {
     add_edit(req, res, next, {
       'title': 'Edit entry',
@@ -168,8 +171,7 @@ router.get('/references',
   }
 )
 
-// --- Login stuff
-var config = require('../server-config')
+// -- Login stuff ------------------------------------------------------------
 
 /* GET login */
 router.get('/login',
@@ -184,6 +186,7 @@ router.get('/login',
 /* POST login */
 router.post('/login',
   passport.authenticate('local', {
+    successReturnToOrRedirect: config.baseURL+'/', // Allows redirection to original dest
     failureRedirect: config.baseURL+'/login',
     failureFlash: true
   }),
