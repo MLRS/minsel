@@ -86,7 +86,8 @@ html(lang="en")
             - if (user)
               li.dropdown
                 a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-                  span.glyphicon.glyphicon-user= user.username
+                  span.glyphicon.glyphicon-user
+                  |  #{user.username}  
                   span.caret
                 ul.dropdown-menu
                   li
