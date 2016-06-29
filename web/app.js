@@ -22,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 var config = require('./server-config')
 app.use(function (req, res, next) {
   res.locals.baseURL = config.baseURL
+  res.locals.useCDN = config.useCDN
   res.locals.analyticsCode = config.analyticsCode
   next()
 })

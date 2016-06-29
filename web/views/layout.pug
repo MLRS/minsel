@@ -7,8 +7,13 @@ html(lang="en")
 
     title Minsel
 
-    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
-    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css')
+    - if (useCDN)
+      link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+      link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css')
+    - else
+      link(rel='stylesheet', href=baseURL+'/bootstrap-3.3.4/css/bootstrap.min.css')
+      link(rel='stylesheet', href=baseURL+'/bootstrap-3.3.4/css/bootstrap-theme.min.css')
+        
     style.
       .affix { top: 8px; right: 10px; z-index: 10000; }
       .footer {
@@ -30,8 +35,13 @@ html(lang="en")
         font-weight: bold;
       }
 
-    script(src='//code.jquery.com/jquery-2.1.4.min.js')
-    script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js',defer)
+    - if (useCDN)
+      script(src='//code.jquery.com/jquery-2.1.4.min.js')
+      script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js',defer)
+    - else
+      script(src=baseURL+'/javascripts/jquery-1.11.0.min.js')
+      script(src=baseURL+'/bootstrap-3.3.4/js/bootstrap.min.js',defer)
+        
     script(src=baseURL+'/module/json-editor/dist/jsoneditor.min.js')
     script(src=baseURL+'/javascripts/typeahead.bundle.min.js')
     - if (analyticsCode)
@@ -76,8 +86,7 @@ html(lang="en")
             - if (user)
               li.dropdown
                 a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-                  span.glyphicon.glyphicon-user
-                  |  Logged in as #{user.username} 
+                  span.glyphicon.glyphicon-user= user.username
                   span.caret
                 ul.dropdown-menu
                   li
