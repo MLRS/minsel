@@ -32,6 +32,24 @@ router.get('/', function (req, res, next) {
   })
 })
 
+/* Search with query params: lemma, pos */
+router.get('/search', function (req, res, next) {
+  var db = req.db
+
+  var conds = {
+    'lemma': req.query.lemma,
+    'pos': req.query.pos,
+  }
+  var opts = {
+  }
+  db.get('entries').find(conds, opts, function (err, data) {
+    if (err) {
+      res.status(500).send(err)
+    }
+    res.json(data)
+  })
+})
+
 /* Read = GET with ID */
 router.get('/:id', function (req, res, next) {
   var collection = req.db.get('entries')
