@@ -18,6 +18,20 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// CORS
+app.use(function (req, res, next) {
+  // var allowed = [
+  //   'http://localhost',
+  //   'http://mlrs.research.um.edu.mt'
+  // ]
+  // var origin = req.headers.origin
+  // if (allowed.indexOf(origin) !== -1) {
+  //   res.header('Access-Control-Allow-Origin', origin)
+  // }
+  res.header('Access-Control-Allow-Origin', '*')
+  next()
+})
+
 // Server specific config
 var config = require('./server-config')
 app.use(function (req, res, next) {
