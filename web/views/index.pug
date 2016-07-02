@@ -1,18 +1,23 @@
 extends layout
 
-mixin etym(es,lang_class)
-  for e in es
-    if groups.hasOwnProperty(lang_class) && groups[lang_class].indexOf(e.language) > -1
-      div
-        +language(e.language)
-        | &nbsp;
-        if e.word_native
-          span= e.word_native
-          | &nbsp;
-        em= e.word
-          | &nbsp;
-        if e.reference
-          +reference(e.reference)
+mixin etym(es,lang_classes)
+  table
+    for e in es
+      for clas in lang_classes
+        if groups.hasOwnProperty(clas) && groups[clas].indexOf(e.language) > -1
+          tr(data-language=e.language)
+            td
+              +language(e.language)
+              | &nbsp;
+            td
+              em= e.word
+                | &nbsp;
+              if e.word_native
+                span= e.word_native
+                | &nbsp;
+            td
+              if e.reference
+                +reference(e.reference)
 
 mixin language(abbrev)
   if languages[abbrev]
@@ -80,16 +85,40 @@ block content
             ol
               if d.senses
                 for s in d.senses
-                  li= s.description.join(', ')
+                  li
+                    div.sense(class=s.etymologies.join(' '))
+                      = s.description.join(', ')
                     div.text-muted
-                      for l in s.etymologies
+                      for l, x in s.etymologies
                         +language(l)
-                        | , 
+                        if x < s.etymologies.length-1
+                          | , 
           td.col-md-4.etymology
             if d.etymology
               h4 Arabic &amp; dialects
-              +etym(d.etymology, 'arabic')
-              +etym(d.etymology, 'levantine-arabic')
+              +etym(d.etymology, ['arabic', 'levantine-arabic'])
               h4 Wider Semitic Area
-              +etym(d.etymology, 'semitic')
-              +etym(d.etymology, 'ethiopic')
+              +etym(d.etymology, ['semitic', 'ethiopic'])
+              
+  style.
+    .highlight {
+      background: #fcf8e3; /* Bootstrap .warning */
+    }
+
+  script.
+    $(document).ready(function () {
+      $('.etymology tr[data-language]').hover(
+        function () {
+          var t = $(this)
+          var lang = t.attr('data-language')
+          t.addClass('highlight')
+          t.parent().parent().parent().parent().find('.sense.'+lang).addClass('highlight')
+        },
+        function () {
+          var t = $(this)
+          var lang = t.attr('data-language')
+          t.removeClass('highlight')
+          $('.sense.'+lang).removeClass('highlight')
+        }
+      )
+    })
