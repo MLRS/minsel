@@ -1,23 +1,33 @@
 extends layout
 
-mixin etym(es,lang_classes)
-  table
+mixin etym_group(title, lang_classes, etyms)
+  //- First collect them
+  - var es = []
+  for e in etyms
+    for clas in lang_classes
+      if groups.hasOwnProperty(clas) && groups[clas].indexOf(e.language) > -1
+        - es.push(e)
+  //- Then display them
+  if es.length > 0
+    h4= title
+    +etym(es)
+
+mixin etym(es)
+  table(style='width:100%')
     for e in es
-      for clas in lang_classes
-        if groups.hasOwnProperty(clas) && groups[clas].indexOf(e.language) > -1
-          tr(data-language=e.language)
-            td
-              +language(e.language)
-              | &nbsp;
-            td
-              em= e.word
-                | &nbsp;
-              if e.word_native
-                span= e.word_native
-                | &nbsp;
-            td
-              if e.reference
-                +reference(e.reference)
+      tr(data-language=e.language)
+        td
+          +language(e.language)
+          | &nbsp;
+        td
+          em= e.word
+            | &nbsp;
+          if e.word_native
+            span= e.word_native
+            | &nbsp;
+        td
+          if e.reference
+            +reference(e.reference)
 
 mixin language(abbrev)
   if languages[abbrev]
@@ -95,10 +105,8 @@ block content
                           | , 
           td.col-md-4.etymology
             if d.etymology
-              h4 Arabic &amp; dialects
-              +etym(d.etymology, ['arabic', 'levantine-arabic'])
-              h4 Wider Semitic Area
-              +etym(d.etymology, ['semitic', 'ethiopic'])
+              +etym_group('Arabic & dialects', ['arabic', 'levantine-arabic'], d.etymology)
+              +etym_group('Wider Semitic Area', ['semitic', 'ethiopic'], d.etymology)
               
   style.
     .highlight {

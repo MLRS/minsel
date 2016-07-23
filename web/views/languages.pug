@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  
+  h2= title
+
+  table.table.table-striped
+    thead
+      tr
+        th Abbrev
+        th Name
+        th Class
+    tbody
+      for d in data
+        tr
+          td
+            strong= d.abbrev
+          td= d.name
+          td= d.class

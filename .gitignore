@@ -1,4 +1,6 @@
 web/server-config.js
+db/backups
+db/tmp
 
 # Logs
 logs

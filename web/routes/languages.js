@@ -27,6 +27,22 @@ router.get('/enum', function (req, res, next) {
   })
 })
 
+/* Show all languages */
+router.get('/show',
+  function (req, res, next) {
+    var collection = req.db.get('languages')
+    collection.find({}, {'sort': {'class': 1, 'abbrev': 1}}, function (err, data) {
+      if (err) {
+        res.status(500).send(err)
+      }
+      res.render('languages', {
+        title: 'Languages',
+        data: data
+      })
+    })
+  }
+)
+
 /* Get all languages */
 router.get('/', function (req, res, next) {
   var collection = req.db.get('languages')
