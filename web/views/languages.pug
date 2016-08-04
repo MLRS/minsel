@@ -3,17 +3,128 @@ extends layout
 block content
   
   h2= title
-
-  table.table.table-striped
+  
+  table.table.table-striped.table-hover
     thead
       tr
-        th Abbrev
+        th Abbreviation
         th Name
         th Class
+        th Comment
+        if (user)
+          th Order
+          th Actions
+      if (user)
+        form#add-form
+          tr.form-group-sm
+            td.col-xs-1
+              input.form-control(type='text', name='abbrev')
+            td
+              input.form-control(type='text', name='name')
+            td
+              select.form-control(name='class')
+                option arabic
+                option levantine-arabic
+                option semitic
+                option ethiopic
+            td
+              input.form-control(type='text', name='comment')
+            td.col-xs-1
+              input.form-control(type='number', name='order')
+            td
+              button.btn.btn-sm.btn-success(type='submit')
+                +icon('plus', 'Add language')
+        
     tbody
-      for d in data
-        tr
+      for d, i in data
+        tr(data-id=d._id.toHexString())
           td
             strong= d.abbrev
           td= d.name
           td= d.class
+          td= d.comment
+          if (user)
+            td.text-muted= d.order
+            td
+              a.btn.btn-xs.btn-default(
+                style='visibility:'+((i>0)?'visible':'hidden'),
+                onclick='actions.reorder("'+d._id+'", '+(d.order-6)+')'
+              )
+                +icon('arrow-up')
+              |   
+              a.btn.btn-xs.btn-default(
+                style='visibility:'+((i<data.length-1)?'visible':'hidden'),
+                onclick='actions.reorder("'+d._id+'", '+(d.order+6)+')'
+              )
+                +icon('arrow-down')
+              |   
+              a.btn.btn-xs.btn-warning(onclick='actions.copy("'+d._id+'")')
+                +icon('duplicate', 'Copy')
+              |   
+              a.btn.btn-xs.btn-danger(onclick='actions.delete("'+d._id+'")')
+                +icon('remove', 'Delete')
+
+  script.
+    var handle_error = function (err) {
+      alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
+    }
+    $('button[type=submit]').click(function () {
+      var data = {}
+      var fdata = $('#add-form').serializeArray()
+      for (var i in fdata) {
+        data[fdata[i].name] = fdata[i].value
+      }
+      data.order = parseInt(data.order)
+      if (!data.comment) delete(data.comment)
+      $.ajax({
+        method: "POST",
+        contentType: 'application/json',
+        url: "#{baseURL}/languages/",
+        data: JSON.stringify(data),
+        success: function (data) {
+          window.location.reload()
+        },
+        error: handle_error,
+      })
+      return false
+    })
+    var actions = {
+      copy: function (id) {
+        $.ajax({
+          method: "GET",
+          url: "#{baseURL}/languages/" + id,
+          success: function (data) {
+            for (var field of ['order','abbrev','name','class','comment']) {
+              $('[name="'+field+'"]').val(data[field])
+            }
+            $('html, body').animate({
+                scrollTop: 0
+            }, 'fast');
+          },
+          error: handle_error,
+        })
+        return false
+      },
+      reorder: function (id, order) {
+        $.ajax({
+          method: "POST",
+          url: "#{baseURL}/languages/reorder/" + id + "/" + order,
+          success: function (data) {
+            window.location.reload()
+          },
+          error: handle_error,
+        })
+        return false
+      },
+      delete: function (id) {
+        $.ajax({
+          method: "DELETE",
+          url: "#{baseURL}/languages/" + id,
+          success: function (data) {
+            window.location.reload()
+          },
+          error: handle_error,
+        })
+        return false
+      },
+    }

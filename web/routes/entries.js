@@ -53,7 +53,7 @@ router.get('/search', function (req, res, next) {
 /* Read = GET with ID */
 router.get('/:id', function (req, res, next) {
   var collection = req.db.get('entries')
-  collection.findById(req.params.id, function (err, data) {
+  collection.findOne(req.params.id, function (err, data) {
     if (err) {
       res.status(500).send(err)
     }
@@ -68,11 +68,11 @@ router.post('/:id',
   ensureLoggedInAPI(),
   function (req, res, next) {
     var collection = req.db.get('entries')
-    collection.updateById(req.params.id, req.body, function (err) {
+    collection.update(req.params.id, req.body, function (err) {
       if (err) {
         res.status(500).send(err)
       }
-      collection.findById(req.params.id, function (err, data) {
+      collection.findOne(req.params.id, function (err, data) {
         if (err) {
           res.status(500).send(err)
         }
@@ -87,7 +87,7 @@ router.delete('/:id',
   ensureLoggedInAPI(),
   function (req, res, next) {
     var collection = req.db.get('entries')
-    collection.removeById(req.params.id, function (err) {
+    collection.remove(req.params.id, function (err) {
       if (err) {
         res.status(500).send(err)
       }

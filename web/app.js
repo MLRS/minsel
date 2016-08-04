@@ -60,7 +60,7 @@ app.use(require('express-session')({
 }))
 
 // Database
-var monk = require('monkii')
+var monk = require('monk')
 var db = monk('localhost:27017/minsel')
 // Make our db accessible to our router
 app.use(function (req, res, next) {
@@ -90,7 +90,7 @@ passport.serializeUser(function (user, cb) {
   cb(null, user._id)
 })
 passport.deserializeUser(function (id, cb) {
-  db.get('users').findById(id, function (err, user) {
+  db.get('users').findOne(id, function (err, user) {
     if (err) { return cb(err) }
     cb(null, user)
   })
