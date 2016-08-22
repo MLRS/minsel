@@ -15,12 +15,26 @@ block content
   
   h2= title
 
-  table.table.table-striped
+  table.table.table-striped.table-hover
     thead
       tr
-        th Abbrev
+        th Abbreviation
         th Authors
         th Year
+        if (user)
+          th Actions
+      if (user)
+        form#add-form
+          tr.form-group-sm
+            td
+              input.form-control(type='text', name='abbrev')
+            td
+              input.form-control(type='text', name='authors')
+            td
+              input.form-control(type='text', name='year')
+            td
+              button.btn.btn-sm.btn-success(type='submit')
+                +icon('plus', 'Add reference')
     tbody
       for d in data
         tr
@@ -28,3 +42,64 @@ block content
             strong= d.abbrev
           td= d.authors
           td= d.year
+          if (user)
+            td
+              a.btn.btn-xs.btn-warning(onclick='actions.copy("'+d._id+'")')
+                +icon('duplicate', 'Copy')
+              |   
+              a.btn.btn-xs.btn-danger(onclick='actions.delete("'+d._id+'")')
+                +icon('remove', 'Delete')
+
+  script.
+    var handle_error = function (err) {
+      alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
+    }
+    $('button[type=submit]').click(function () {
+      var data = {
+        abbrev: $('input[name=abbrev]').val(),
+        authors: $('input[name=authors]').val().split(';').map((s)=>{return s.trim()}),
+        year: $('input[name=year]').val(),
+      }
+      data.order = parseInt(data.order)
+      if (!data.comment) delete(data.comment)
+      $.ajax({
+        method: "POST",
+        contentType: 'application/json',
+        url: "#{baseURL}/references/",
+        data: JSON.stringify(data),
+        success: function (data) {
+          window.location.reload()
+        },
+        error: handle_error,
+      })
+      return false
+    })
+    var actions = {
+      copy: function (id) {
+        $.ajax({
+          method: "GET",
+          url: "#{baseURL}/references/" + id,
+          success: function (data) {
+            for (var field of ['abbrev','authors','year']) {
+              $('[name="'+field+'"]').val(data[field])
+            }
+            $('html, body').animate({
+                scrollTop: 0
+            }, 'fast');
+          },
+          error: handle_error,
+        })
+        return false
+      },
+      delete: function (id) {
+        $.ajax({
+          method: "DELETE",
+          url: "#{baseURL}/references/" + id,
+          success: function (data) {
+            window.location.reload()
+          },
+          error: handle_error,
+        })
+        return false
+      },
+    }

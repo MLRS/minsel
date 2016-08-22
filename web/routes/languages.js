@@ -3,10 +3,12 @@ var router = express.Router()
 // var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 var ensureLoggedInAPI = require('../middlewares/ensureLoggedInAPI')
 
+const sort = {'order': 1}
+
 /* Get languages list for schema */
 router.get('/enum', function (req, res, next) {
   var collection = req.db.get('languages')
-  collection.find({}, {'sort': {'order': 1}}, function (err, data) {
+  collection.find({}, {'sort': sort}, function (err, data) {
     if (err) {
       res.status(500).send(err)
     }
@@ -33,7 +35,7 @@ router.get('/enum', function (req, res, next) {
 router.get('/show',
   function (req, res, next) {
     var collection = req.db.get('languages')
-    collection.find({}, {'sort': {'order': 1}}, function (err, data) {
+    collection.find({}, {'sort': sort}, function (err, data) {
       if (err) {
         res.status(500).send(err)
       }
@@ -76,7 +78,7 @@ router.get('/show',
 /* Index = GET */
 router.get('/', function (req, res, next) {
   var collection = req.db.get('languages')
-  collection.find({}, {'sort': {'order': 1}}, function (err, data) {
+  collection.find({}, {'sort': sort}, function (err, data) {
     if (err) {
       res.status(500).send(err)
     }
@@ -173,7 +175,7 @@ router.post('/reorder/:id/:order',
 // Reflow orders (for internal use)
 var reflow = function (collection, callback) {
   var i = 0
-  collection.find({}, {'sort': {'order': 1}}).each((language) => {
+  collection.find({}, {'sort': sort}).each((language) => {
     i += 5
     language.order = i
     collection.update(language._id, language)
