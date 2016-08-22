@@ -155,22 +155,6 @@ router.get('/edit/:id',
   }
 )
 
-/* GET references/show */
-router.get('/references/show',
-  function (req, res, next) {
-    var collection = req.db.get('references')
-    collection.find({}, {'sort': {'abbrev': 1, 'year': 1}}, function (err, data) {
-      if (err) {
-        res.status(500).send(err)
-      }
-      res.render('references', {
-        title: 'References',
-        data: data
-      })
-    })
-  }
-)
-
 // -- Login stuff ------------------------------------------------------------
 
 /* GET login */

@@ -1,13 +1,17 @@
 var express = require('express')
 var router = express.Router()
+var fs = require('fs')
 // var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 var ensureLoggedInAPI = require('../middlewares/ensureLoggedInAPI')
+
+const schema_file = 'public/schemas/reference.json'
 
 const sort = {'abbrev': 1, 'year': 1}
 
 /* GET Show all references */
 router.get('/show',
   function (req, res, next) {
+    schema = fs.readFileSync(schema_file, 'utf8') // naughty
     var collection = req.db.get('references')
     collection.find({}, {'sort': sort}, function (err, data) {
       if (err) {
@@ -15,6 +19,7 @@ router.get('/show',
       }
       res.render('references', {
         title: 'References',
+        schema: schema,
         data: data
       })
     })

@@ -14,6 +14,9 @@ mixin reference(ref_str)
 block content
   
   h2= title
+    if (user)
+      button.btn.btn-sm.btn-primary(onclick='actions.add()')
+        +icon('plus', 'Add reference')
 
   table.table.table-striped.table-hover
     thead
@@ -23,18 +26,6 @@ block content
         th Year
         if (user)
           th Actions
-      if (user)
-        form#add-form
-          tr.form-group-sm
-            td
-              input.form-control(type='text', name='abbrev')
-            td
-              input.form-control(type='text', name='authors')
-            td
-              input.form-control(type='text', name='year')
-            td
-              button.btn.btn-sm.btn-success(type='submit')
-                +icon('plus', 'Add reference')
     tbody
       for d in data
         tr
@@ -44,11 +35,24 @@ block content
           td= d.year
           if (user)
             td
-              a.btn.btn-xs.btn-warning(onclick='actions.copy("'+d._id+'")')
-                +icon('duplicate', 'Copy')
+              a.btn.btn-xs.btn-warning(onclick='actions.edit("'+d._id+'")')
+                +icon('pencil', 'Edit')
               |   
               a.btn.btn-xs.btn-danger(onclick='actions.delete("'+d._id+'")')
                 +icon('remove', 'Delete')
+
+  .modal(tabindex='-1', role='dialog')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') ×
+          h4.modal-title ...
+        .modal-body
+          div#editor-holder
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-success(type='button') Save
 
   script.
     var handle_error = function (err) {
@@ -74,7 +78,35 @@ block content
       })
       return false
     })
+    JSONEditor.defaults.options.ajax = true
+    JSONEditor.defaults.options.theme = 'bootstrap3'
+    JSONEditor.defaults.options.iconlib = 'bootstrap3'
     var actions = {
+      add: function() {
+        $('h4.modal-title').text('Add reference')
+        $('.modal').modal()
+        var element = document.getElementById('editor-holder')
+        var editor = new JSONEditor(element, {
+          schema: !{schema}
+        })
+      },
+      edit: function (id) {
+        $('h4.modal-title').text('Edit reference')
+        $('.modal').modal()
+        $.ajax({
+          method: "GET",
+          url: "#{baseURL}/references/" + id,
+          success: function (data) {
+            var element = document.getElementById('editor-holder')
+            var editor = new JSONEditor(element, {
+              schema: !{schema}
+            })
+            editor.setValue(data)
+          },
+          error: handle_error,
+        })
+        return false
+      },
       copy: function (id) {
         $.ajax({
           method: "GET",
