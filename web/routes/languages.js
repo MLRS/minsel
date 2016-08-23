@@ -99,7 +99,7 @@ router.post('/',
       if (err) {
         res.status(500).send(err)
       }
-      reflow(collection, () => {
+      reflow(collection, function () {
         res.json(data)
       })
     })
@@ -128,7 +128,7 @@ router.post('/:id',
       if (err) {
         res.status(500).send(err)
       }
-      reflow(collection, () => {
+      reflow(collection, function () {
         collection.findOne(req.params.id, function (err, data) {
           if (err) {
             res.status(500).send(err)
@@ -163,7 +163,7 @@ router.post('/reorder/:id/:order',
       if (err) {
         res.status(500).send(err)
       }
-      reflow(collection, () => {
+      reflow(collection, function () {
         collection.findOne(req.params.id, function (err, data) {
           if (err) {
             res.status(500).send(err)
@@ -178,7 +178,7 @@ router.post('/reorder/:id/:order',
 // Reflow orders (for internal use)
 var reflow = function (collection, callback) {
   var i = 0
-  collection.find({}, {'sort': sort}).each((language) => {
+  collection.find({}, {'sort': sort}).each(function (language) {
     i += 5
     language.order = i
     collection.update(language._id, language)

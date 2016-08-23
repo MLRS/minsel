@@ -111,6 +111,10 @@ html(lang="en")
               li
                 a(href=baseURL+"/login") Login
             - if (user)
+              li
+                a(href=baseURL+"/add")
+                  span.glyphicon.glyphicon-plus
+                  |  New entry
               li.dropdown
                 a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
                   span.glyphicon.glyphicon-user
@@ -121,10 +125,6 @@ html(lang="en")
                     a(href=baseURL+"/logout").navbar-link
                       span.glyphicon.glyphicon-off
                       |  Logout
-              li
-                a(href=baseURL+"/add")
-                  span.glyphicon.glyphicon-plus
-                  |  New entry
             
     .container
       block content

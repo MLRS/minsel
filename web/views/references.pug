@@ -71,6 +71,7 @@ block content
         $('.modal').modal()
         editor.setValue({})
         editor_id = null
+        return false
       },
       // Show edit modal
       edit: function (id) {
@@ -98,9 +99,9 @@ block content
           success: function (data) {
             window.location.reload()
           },
-          error: handle_error,
-          complete: hide_loading
+          error: handle_error
         })
+        return false
       },
       // Delete reference
       delete: function (id) {
