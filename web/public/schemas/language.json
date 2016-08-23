@@ -7,16 +7,18 @@
     "class"
   ],
   "properties": {
+    "_id": {
+      "type": "string",
+      "title": "ID",
+      "propertyOrder": 1
+    },
     "abbrev" : {
       "type": "string",
       "title": "Abbreviation"
     },
     "name" : {
       "type": "string",
-      "title": "Full English name"
-    },
-    "comment" : {
-      "type": "string"
+      "title": "Name (English)"
     },
     "class" : {
       "type": "string",
@@ -27,7 +29,15 @@
         "semitic",
         "ethiopic"
       ]
-    }
+    },
+    "comment" : {
+      "title": "Comment",
+      "type": "string"
+    },
+    "order" : {
+      "title": "Order",
+      "type": "number"
+    },
   }
 
 }

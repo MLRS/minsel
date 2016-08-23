@@ -3,6 +3,9 @@ extends layout
 block content
   
   h2= title
+    if (user)
+      button.btn.btn-sm.btn-primary(onclick='actions.add()')
+        +icon('plus', 'Add language')
   
   table.table.table-striped.table-hover
     thead
@@ -14,26 +17,6 @@ block content
         if (user)
           th Order
           th Actions
-      if (user)
-        form#add-form
-          tr.form-group-sm
-            td.col-xs-1
-              input.form-control(type='text', name='abbrev')
-            td
-              input.form-control(type='text', name='name')
-            td
-              select.form-control(name='class')
-                option arabic
-                option levantine-arabic
-                option semitic
-                option ethiopic
-            td
-              input.form-control(type='text', name='comment')
-            td.col-xs-1
-              input.form-control(type='number', name='order')
-            td
-              button.btn.btn-sm.btn-success(type='submit')
-                +icon('plus', 'Add language')
         
     tbody
       for d, i in data
@@ -58,53 +41,74 @@ block content
               )
                 +icon('arrow-down')
               |   
-              a.btn.btn-xs.btn-warning(onclick='actions.copy("'+d._id+'")')
-                +icon('duplicate', 'Copy')
+              a.btn.btn-xs.btn-warning(onclick='actions.edit("'+d._id+'")')
+                +icon('pencil', 'Edit')
               |   
               a.btn.btn-xs.btn-danger(onclick='actions.delete("'+d._id+'")')
                 +icon('remove', 'Delete')
 
+  .modal(tabindex='-1', role='dialog')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') ×
+          h4.modal-title ...
+        .modal-body
+          div#editor-holder
+        .modal-footer
+          img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden")#loading
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-success(type='button',onclick='actions.save()') Save
+          
   script.
-    var handle_error = function (err) {
-      alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
-    }
-    $('button[type=submit]').click(function () {
-      var data = {}
-      var fdata = $('#add-form').serializeArray()
-      for (var i in fdata) {
-        data[fdata[i].name] = fdata[i].value
-      }
-      data.order = parseInt(data.order)
-      if (!data.comment) delete(data.comment)
-      $.ajax({
-        method: "POST",
-        contentType: 'application/json',
-        url: "#{baseURL}/languages/",
-        data: JSON.stringify(data),
-        success: function (data) {
-          window.location.reload()
-        },
-        error: handle_error,
+    var editor
+    var editor_id = null
+    $(document).ready(function () {
+      var element = document.getElementById('editor-holder')
+      editor = new JSONEditor(element, {
+        schema: !{schema}
       })
-      return false
     })
     var actions = {
-      copy: function (id) {
+      // Show add modal
+      add: function () {
+        $('h4.modal-title').text('Add language')
+        $('.modal').modal()
+        editor.setValue({})
+        editor_id = null
+      },
+      // Show edit modal
+      edit: function (id) {
+        $('h4.modal-title').text('Edit language')
+        $('.modal').modal()
         $.ajax({
           method: "GET",
           url: "#{baseURL}/languages/" + id,
           success: function (data) {
-            for (var field of ['order','abbrev','name','class','comment']) {
-              $('[name="'+field+'"]').val(data[field])
-            }
-            $('html, body').animate({
-                scrollTop: 0
-            }, 'fast');
+            editor.setValue(data)
+            editor_id = data._id // should == id
           },
           error: handle_error,
         })
         return false
       },
+      // Save
+      save: function () {
+        show_loading()
+        $.ajax({
+          method: "POST",
+          contentType: "application/json",
+          url: "#{baseURL}/languages/" + (editor_id ? editor_id : ''),
+          data: JSON.stringify(editor.getValue()),
+          success: function (data) {
+            window.location.reload()
+          },
+          error: handle_error,
+          complete: hide_loading
+        })
+      },
+      // Change order
       reorder: function (id, order) {
         $.ajax({
           method: "POST",
@@ -116,14 +120,17 @@ block content
         })
         return false
       },
+      // Delete reference
       delete: function (id) {
+        if (!confirm("Really delete this reference?"))
+          return false;
         $.ajax({
           method: "DELETE",
           url: "#{baseURL}/languages/" + id,
           success: function (data) {
             window.location.reload()
           },
-          error: handle_error,
+          error: handle_error
         })
         return false
       },

@@ -1,7 +1,7 @@
 MINSEL meeting 2016-08-03
 -------------------------
 
-- Interface for adding langauges, references
+- ~~Interface for adding langauges, references~~
 - ~~Sorting of languages~~
 - Ability to sort from within editor
 - MSA doesn't show up if not languages list

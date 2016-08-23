@@ -34,48 +34,42 @@ block content
     }
 
   script.
-    function show_loading() {
-      $('#loading').css('visibility','visible')
-    }
-    function hide_loading() {
-      $('#loading').css('visibility','hidden')
-    }
-    JSONEditor.defaults.options.ajax = true
-    JSONEditor.defaults.options.theme = 'bootstrap3'
-    JSONEditor.defaults.options.iconlib = 'bootstrap3'
-    var element = document.getElementById('editor-holder')
-    var editor = new JSONEditor(element, {
-      schema: !{schema}
-    })
-    editor.on('ready', function () {
-      $("#btn-load").trigger('click')
-    })
-    editor.on('change', function () {
-      var langs = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        local: !{JSON.stringify(languages)}
+    var editor
+    $(document).ready(function () {
+      var element = document.getElementById('editor-holder')
+      editor = new JSONEditor(element, {
+        schema: !{schema}
       })
-      var refs = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        local: !{JSON.stringify(references)}
+      editor.on('ready', function () {
+        $("#btn-load").trigger('click')
       })
-      var opts = {
-        minLength: 1,
-        highlight: true
-      }
-      $('td[data-schemapath^="root.senses"][data-schemapath*="etymologies"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
-        name: 'language',
-        source: langs
-      })
-      $('td[data-schemapath^="root.etymology"][data-schemapath$="language"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
-        name: 'language',
-        source: langs
-      })
-      $('td[data-schemapath^="root.etymology"][data-schemapath$="reference"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
-        name: 'reference',
-        source: refs
+      editor.on('change', function () {
+        var langs = new Bloodhound({
+          datumTokenizer: Bloodhound.tokenizers.whitespace,
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          local: !{JSON.stringify(languages)}
+        })
+        var refs = new Bloodhound({
+          datumTokenizer: Bloodhound.tokenizers.whitespace,
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          local: !{JSON.stringify(references)}
+        })
+        var opts = {
+          minLength: 1,
+          highlight: true
+        }
+        $('td[data-schemapath^="root.senses"][data-schemapath*="etymologies"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
+          name: 'language',
+          source: langs
+        })
+        $('td[data-schemapath^="root.etymology"][data-schemapath$="language"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
+          name: 'language',
+          source: langs
+        })
+        $('td[data-schemapath^="root.etymology"][data-schemapath$="reference"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
+          name: 'reference',
+          source: refs
+        })
       })
     })
     

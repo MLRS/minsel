@@ -5,13 +5,12 @@ var fs = require('fs')
 var ensureLoggedInAPI = require('../middlewares/ensureLoggedInAPI')
 
 const schema_file = 'public/schemas/reference.json'
-
 const sort = {'abbrev': 1, 'year': 1}
 
 /* GET Show all references */
 router.get('/show',
   function (req, res, next) {
-    schema = fs.readFileSync(schema_file, 'utf8') // naughty
+    var schema = fs.readFileSync(schema_file, 'utf8') // naughty
     var collection = req.db.get('references')
     collection.find({}, {'sort': sort}, function (err, data) {
       if (err) {
@@ -49,9 +48,7 @@ router.post('/',
       if (err) {
         res.status(500).send(err)
       }
-      reflow(collection, () => {
-        res.json(data)
-      })
+      res.json(data)
     })
   }
 )
@@ -78,13 +75,11 @@ router.post('/:id',
       if (err) {
         res.status(500).send(err)
       }
-      reflow(collection, () => {
-        collection.findOne(req.params.id, function (err, data) {
-          if (err) {
-            res.status(500).send(err)
-          }
-          res.json(data)
-        })
+      collection.findOne(req.params.id, function (err, data) {
+        if (err) {
+          res.status(500).send(err)
+        }
+        res.json(data)
       })
     })
   }

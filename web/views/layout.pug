@@ -61,7 +61,26 @@ html(lang="en")
     script.
       $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip()
+        JSONEditor.defaults.options.ajax = true
+        JSONEditor.defaults.options.theme = 'bootstrap3'
+        JSONEditor.defaults.options.iconlib = 'bootstrap3'
       })
+      function show_loading() {
+        $('#loading').css('visibility','visible')
+      }
+      function hide_loading() {
+        $('#loading').css('visibility','hidden')
+      }
+      function handle_error(err) {
+        var msg = err.statusText
+        if (err.responseJSON) {
+            msg += "\n" + err.responseJSON.name
+            msg += "\n" + err.responseJSON.err
+        } else if (err.responseText) {
+            msg += "\n" + err.responseText
+        }
+        alert(msg)
+      }
 
   body(role="document",style="margin-top:4em")
     nav.navbar.navbar-default.navbar-fixed-top

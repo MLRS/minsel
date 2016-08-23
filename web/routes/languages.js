@@ -1,8 +1,10 @@
 var express = require('express')
 var router = express.Router()
+var fs = require('fs')
 // var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 var ensureLoggedInAPI = require('../middlewares/ensureLoggedInAPI')
 
+const schema_file = 'public/schemas/language.json'
 const sort = {'order': 1}
 
 /* Get languages list for schema */
@@ -18,7 +20,6 @@ router.get('/enum', function (req, res, next) {
         'value': item.abbrev
       }
     })
-
     res.json({
       'title': 'Language',
       'type': 'string',
@@ -34,6 +35,7 @@ router.get('/enum', function (req, res, next) {
 /* Show all languages */
 router.get('/show',
   function (req, res, next) {
+    var schema = fs.readFileSync(schema_file, 'utf8') // naughty
     var collection = req.db.get('languages')
     collection.find({}, {'sort': sort}, function (err, data) {
       if (err) {
@@ -41,6 +43,7 @@ router.get('/show',
       }
       res.render('languages', {
         title: 'Languages',
+        schema: schema,
         data: data
       })
     })

@@ -51,45 +51,28 @@ block content
         .modal-body
           div#editor-holder
         .modal-footer
+          img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden")#loading
           button.btn.btn-default(type='button', data-dismiss='modal') Close
-          button.btn.btn-success(type='button') Save
+          button.btn.btn-success(type='button',onclick='actions.save()') Save
 
   script.
-    var handle_error = function (err) {
-      alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
-    }
-    $('button[type=submit]').click(function () {
-      var data = {
-        abbrev: $('input[name=abbrev]').val(),
-        authors: $('input[name=authors]').val().split(';').map((s)=>{return s.trim()}),
-        year: $('input[name=year]').val(),
-      }
-      data.order = parseInt(data.order)
-      if (!data.comment) delete(data.comment)
-      $.ajax({
-        method: "POST",
-        contentType: 'application/json',
-        url: "#{baseURL}/references/",
-        data: JSON.stringify(data),
-        success: function (data) {
-          window.location.reload()
-        },
-        error: handle_error,
+    var editor
+    var editor_id = null
+    $(document).ready(function () {
+      var element = document.getElementById('editor-holder')
+      editor = new JSONEditor(element, {
+        schema: !{schema}
       })
-      return false
     })
-    JSONEditor.defaults.options.ajax = true
-    JSONEditor.defaults.options.theme = 'bootstrap3'
-    JSONEditor.defaults.options.iconlib = 'bootstrap3'
     var actions = {
-      add: function() {
+      // Show add modal
+      add: function () {
         $('h4.modal-title').text('Add reference')
         $('.modal').modal()
-        var element = document.getElementById('editor-holder')
-        var editor = new JSONEditor(element, {
-          schema: !{schema}
-        })
+        editor.setValue({})
+        editor_id = null
       },
+      // Show edit modal
       edit: function (id) {
         $('h4.modal-title').text('Edit reference')
         $('.modal').modal()
@@ -97,40 +80,39 @@ block content
           method: "GET",
           url: "#{baseURL}/references/" + id,
           success: function (data) {
-            var element = document.getElementById('editor-holder')
-            var editor = new JSONEditor(element, {
-              schema: !{schema}
-            })
             editor.setValue(data)
+            editor_id = data._id // should == id
           },
           error: handle_error,
         })
         return false
       },
-      copy: function (id) {
+      // Save
+      save: function () {
+        show_loading()
         $.ajax({
-          method: "GET",
-          url: "#{baseURL}/references/" + id,
+          method: "POST",
+          contentType: "application/json",
+          url: "#{baseURL}/references/" + (editor_id ? editor_id : ''),
+          data: JSON.stringify(editor.getValue()),
           success: function (data) {
-            for (var field of ['abbrev','authors','year']) {
-              $('[name="'+field+'"]').val(data[field])
-            }
-            $('html, body').animate({
-                scrollTop: 0
-            }, 'fast');
+            window.location.reload()
           },
           error: handle_error,
+          complete: hide_loading
         })
-        return false
       },
+      // Delete reference
       delete: function (id) {
+        if (!confirm("Really delete this reference?"))
+          return false;
         $.ajax({
           method: "DELETE",
           url: "#{baseURL}/references/" + id,
           success: function (data) {
             window.location.reload()
           },
-          error: handle_error,
+          error: handle_error
         })
         return false
       },

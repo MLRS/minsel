@@ -11,7 +11,8 @@
   "properties": {
     "_id": {
       "type": "string",
-      "title": "ID"
+      "title": "ID",
+      "propertyOrder": 1
     },
     "lemma": {
       "title": "Lemma",
@@ -89,6 +90,7 @@
       "items": {
         "title": "Sense",
         "type": "object",
+        "headerTemplate": "{{ i1 }}. {{ self.description }}",
         "properties": {
           "description" : {
             "title": "Descriptions",
