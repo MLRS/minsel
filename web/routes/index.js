@@ -30,7 +30,7 @@ router.get('/', function (req, res, next) {
         db.get('entries').find(conds, opts, callback)
       },
       languages: function (callback) {
-        db.get('languages').find({}, function (err, data) {
+        db.get('languages').find({}, {'sort': {'order': 1}}, function (err, data) {
           var assoc = {} // abbrev : obj
           data.forEach(function (item) {
             assoc[item.abbrev] = item

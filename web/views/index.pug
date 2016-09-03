@@ -7,27 +7,34 @@ mixin etym_group(title, lang_classes, etyms)
     for clas in lang_classes
       if groups.hasOwnProperty(clas) && groups[clas].indexOf(e.language) > -1
         - es.push(e)
+  //- Then sort them
+  - es = es.sort(function (a,b) {
+  -   var order_a = languages[a['language']] ? languages[a['language']]['order'] : 9999
+  -   var order_b = languages[b['language']] ? languages[b['language']]['order'] : 9999
+  -   return order_a - order_b
+  - })
   //- Then display them
   if es.length > 0
-    h4= title
+    tr
+      th(colspan=3)
+        h5.text-muted= title
     +etym(es)
 
 mixin etym(es)
-  table(style='width:100%')
-    for e in es
-      tr(data-language=e.language)
-        td
-          +language(e.language)
+  for e in es
+    tr(data-language=e.language)
+      td
+        +language(e.language)
+        | &nbsp;
+      td
+        em= e.word
           | &nbsp;
-        td
-          em= e.word
-            | &nbsp;
-          if e.word_native
-            span= e.word_native
-            | &nbsp;
-        td
-          if e.reference
-            +reference(e.reference)
+        if e.word_native
+          span= e.word_native
+          | &nbsp;
+      td
+        if e.reference
+          +reference(e.reference)
 
 mixin language(abbrev)
   if languages[abbrev]
@@ -57,6 +64,14 @@ block content
         | researchers at the Department of Oriental Studies at the
         | University of Malta.
         | There's currently not much here, but new entries are being added slowly.
+        
+  //- pre.pre-scrollable
+  //-   | LANGUAGES = 
+  //-   = JSON.stringify(languages, null, 4)
+  //-   | GROUPS = 
+  //-   = JSON.stringify(groups, null, 4)
+  //-   | DATA = 
+  //-   = JSON.stringify(data, null, 4)
   
   h2= title
     if query && query.s
@@ -90,7 +105,7 @@ block content
                   = d.root.radicals
                   if d.root.variant
                     sup.text-muted= d.root.variant
-          td.col-md-6.senses
+          td.col-md-5.senses
             h4 Senses
             ol
               if d.senses
@@ -99,16 +114,38 @@ block content
                     div.sense(class=s.etymologies.join(' '))
                       = s.description.join(', ')
                     div.text-muted
-                      for l, x in s.etymologies
+                      //- No etymologies given = occurs in all
+                      if (s.etymologies.length == 0)
+                        for e in d.etymology
+                          if (s.etymologies.indexOf(e['language']) === -1)
+                            - s.etymologies.push(e['language'])
+                        
+                      //- Sort by language
+                      - var etyms_sorted = s.etymologies.sort(function (a,b) {
+                      -   var order_a = languages[a] ? languages[a]['order'] : 9999
+                      -   var order_b = languages[b] ? languages[b]['order'] : 9999
+                      -   return order_a - order_b
+                      - })
+                      
+                      //- Then display
+                      for l, x in etyms_sorted
                         +language(l)
-                        if x < s.etymologies.length-1
+                        if x < etyms_sorted.length-1
                           | , 
-          td.col-md-4.etymology
+          td.col-md-5.etymology
+            h4 Language usage
             if d.etymology
-              +etym_group('Arabic & dialects', ['arabic', 'levantine-arabic'], d.etymology)
-              +etym_group('Wider Semitic Area', ['semitic', 'ethiopic'], d.etymology)
+              table.etymologies.table.table-condensed
+                +etym_group('Arabic & dialects', ['arabic', 'levantine-arabic'], d.etymology)
+                +etym_group('Wider Semitic Area', ['semitic', 'ethiopic'], d.etymology)
               
   style.
+    table.etymologies {
+      width: 100%;
+    }
+    table.etymologies th {
+      font-style: italic;
+    }
     .highlight {
       background: #fcf8e3; /* Bootstrap .warning */
     }
