@@ -1,25 +1,5 @@
 extends layout
 
-mixin etym_group(title, lang_classes, etyms)
-  //- First collect them
-  - var es = []
-  for e in etyms
-    for clas in lang_classes
-      if groups.hasOwnProperty(clas) && groups[clas].indexOf(e.language) > -1
-        - es.push(e)
-  //- Then sort them
-  - es = es.sort(function (a,b) {
-  -   var order_a = languages[a['language']] ? languages[a['language']]['order'] : 9999
-  -   var order_b = languages[b['language']] ? languages[b['language']]['order'] : 9999
-  -   return order_a - order_b
-  - })
-  //- Then display them
-  if es.length > 0
-    tr
-      th(colspan=3)
-        h5.text-muted= title
-    +etym(es)
-
 mixin etym(es)
   for e in es
     tr(data-language=e.language)
@@ -136,9 +116,41 @@ block content
             h4 Language usage
             if d.etymology
               table.etymologies.table.table-condensed
-                +etym_group('Arabic & dialects', ['arabic', 'levantine-arabic'], d.etymology)
-                +etym_group('Wider Semitic Area', ['semitic', 'ethiopic'], d.etymology)
-              
+            
+                //- Collect etyms into groups
+                -
+                  var etym_grouped = {
+                    arabic:{title:'Arabic & dialects', items:[]},
+                    semitic:{title:'Wider Semitic Area', items:[]},
+                    other:{title:'Other', items:[]}
+                  }
+
+                for e in d.etymology
+                  - var cls = languages.hasOwnProperty(e.language) ? languages[e.language]['class'] : null
+                  if (cls == 'arabic' || cls == 'levantine-arabic')
+                    - etym_grouped.arabic.items.push(e)
+                  else if (cls == 'semitic' || cls == 'ethiopic')
+                    - etym_grouped.semitic.items.push(e)
+                  else
+                    - etym_grouped.other.items.push(e)
+                  
+                //- Then sort them
+                - var sorter = function (a,b) {
+                -   var order_a = languages[a['language']] ? languages[a['language']]['order'] : 9999
+                -   var order_b = languages[b['language']] ? languages[b['language']]['order'] : 9999
+                -   return order_a - order_b
+                - }
+                - etym_grouped.arabic.items.sort(sorter)
+                - etym_grouped.semitic.items.sort(sorter)
+                
+                //- Then display them
+                for e in etym_grouped
+                  if e.items.length > 0
+                    tr
+                      th(colspan=3)
+                        h5.text-muted= e.title
+                    +etym(e.items)
+
   style.
     table.etymologies {
       width: 100%;

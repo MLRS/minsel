@@ -4,7 +4,7 @@ MINSEL meeting 2016-08-03
 - ~~Interface for adding langauges, references~~
 - ~~Sorting of languages~~
 - Ability to sort from within editor
-- MSA doesn't show up if not languages list
+- ~~MSA doesn't show up if not languages list~~
 - ~~Same column lengths between Arabic / Wider Semitic~~
 - Alignment of page numbers
 - Multiple references per etym item
