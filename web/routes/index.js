@@ -94,7 +94,7 @@ var add_edit = function (req, res, next, params) {
     },
     languages: function (callback) {
       var collection = req.db.get('languages')
-      collection.find({}, function (err, data) {
+      collection.find({}, {'sort': {'order': 1}}, function (err, data) {
         var names = []
         if (!err) {
           names = data.map(function (item) {

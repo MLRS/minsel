@@ -128,6 +128,10 @@
             "type": "string",
             "title": "Language"
           },
+          "variant" : {
+            "type": "string",
+            "title": "Language variant"
+          },
           "word_native" : {
             "type": "string",
             "title": "Word (native script)"
@@ -135,6 +139,14 @@
           "word" : {
             "type": "string",
             "title": "Word (transcription)"
+          },
+          "comments" : {
+            "type": "string",
+            "title": "Comments"
+          },
+          "private_notes" : {
+            "type": "string",
+            "title": "Private notes"
           },
           "reference" : {
             "type": "string",

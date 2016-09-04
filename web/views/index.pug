@@ -5,16 +5,18 @@ mixin etym(es)
     tr(data-language=e.language)
       td
         +language(e.language)
-        | &nbsp;
+        if e.variant
+          | &nbsp;(!{e.variant})
       td
         em= e.word
-          | &nbsp;
         if e.word_native
           span= e.word_native
-          | &nbsp;
-      td
-        if e.reference
-          +reference(e.reference)
+        if e.comments
+          div= e.comments
+      if e.reference
+        +reference(e.reference)
+      else
+        td(colspan=2)
 
 mixin language(abbrev)
   if languages[abbrev]
@@ -23,15 +25,19 @@ mixin language(abbrev)
     span.language= abbrev
       
 mixin reference(ref_str)
-  - var match = ref_str.match(/^[\w\d]+/)
+  - var match = ref_str.match(/^[\w\d]+/) // up until space
   - var abbrev = match ? match[0] : ref_str
   - var ref = references[abbrev]
-  if ref
-    - var tt = ref.authors.join(', ')
-    - if (ref.year) tt += ' (' + ref.year + ')'
-    span.reference(data-toggle="tooltip",data-placement="bottom",title=tt)= ref_str
-  else
-    span.reference= ref_str
+  - var pages = ref_str.substr(abbrev.length)
+  td.reference
+    if ref
+      - var tt = ref.authors.join(', ')
+      - if (ref.year) tt += ' (' + ref.year + ')'
+      span(data-toggle="tooltip",data-placement="bottom",title=tt)= abbrev
+    else
+      span= abbrev
+  td.reference
+    = pages
 
 block content
   
@@ -147,8 +153,13 @@ block content
                 for e in etym_grouped
                   if e.items.length > 0
                     tr
-                      th(colspan=3)
-                        h5.text-muted= e.title
+                      th(colspan=2)
+                        h5
+                          strong= e.title
+                      th
+                        h5 Ref.
+                      th
+                        h5 pp.
                     +etym(e.items)
 
   style.

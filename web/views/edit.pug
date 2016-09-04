@@ -5,10 +5,15 @@ block content
     div(style="display:inline-block;margin-left:1em",data-spy="affix",data-offset-top="30")
       img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden")#loading
       div.btn-group#buttons
-        a.btn.btn-primary#btn-load Reset
-        a.btn.btn-success#btn-save Save
-        a.btn.btn-danger#btn-delete Delete
-        a.btn.btn-default#btn-cancel(href=baseURL+"/") Cancel
+        a.btn.btn-default#btn-load
+          +icon('repeat', 'Reset')
+        a.btn.btn-warning#btn-sort 
+          +icon('sort-by-attributes', 'Sort languages')
+        a.btn.btn-success#btn-save
+          +icon('ok', 'Save')
+        a.btn.btn-danger#btn-delete 
+          +icon('remove', 'Delete')
+        //- a.btn.btn-default#btn-cancel(href=baseURL+"/") Cancel
 
   div#editor-holder
     
@@ -89,6 +94,27 @@ block content
         }
       })
     })
+    
+    $("#btn-sort").click(function () {
+      show_loading()
+      var langs = !{JSON.stringify(languages)}
+      var data = editor.getValue()
+      console.log(data)
+      for (var i in data.senses) {
+        data.senses[i].etymologies.sort(function (a,b) {
+          var order_a = langs.indexOf(a) > -1 ? langs.indexOf(a) : 9999
+          var order_b = langs.indexOf(b) > -1 ? langs.indexOf(b) : 9999
+          return order_a - order_b
+        })
+      }
+      data.etymology.sort(function (a,b) {
+        var order_a = langs.indexOf(a.language) > -1 ? langs.indexOf(a.language) : 9999
+        var order_b = langs.indexOf(b.language) > -1 ? langs.indexOf(b.language) : 9999
+        return order_a - order_b
+      })
+      editor.setValue(data)
+      hide_loading()
+    })
     $("#btn-save").click(function () {
       var id = "#{id}" // null when adding
       show_loading()
@@ -113,10 +139,8 @@ block content
       })
     })
     $("#btn-delete").click(function () {
-
       if (!confirm("Really delete this entry?"))
-        return false;
-
+        return false
       show_loading()
       $.ajax({
         method: "DELETE",
