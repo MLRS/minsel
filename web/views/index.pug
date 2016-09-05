@@ -93,20 +93,19 @@ block content
                   if d.root.variant
                     sup.text-muted= d.root.variant
           td.col-md-5.senses
-            h4 Senses
-            ol
-              if d.senses
+            if d.senses && d.senses.length > 0
+              h4 Senses
+              ol
                 for s in d.senses
+                  //- No etymologies given = occurs in all
+                  if (s.etymologies.length == 0)
+                    for e in d.etymology
+                      if (s.etymologies.indexOf(e['language']) === -1)
+                        - s.etymologies.push(e['language'])
                   li
                     div.sense(class=s.etymologies.join(' '))
                       = s.description.join(', ')
                     div.text-muted
-                      //- No etymologies given = occurs in all
-                      if (s.etymologies.length == 0)
-                        for e in d.etymology
-                          if (s.etymologies.indexOf(e['language']) === -1)
-                            - s.etymologies.push(e['language'])
-                        
                       //- Sort by language
                       - var etyms_sorted = s.etymologies.sort(function (a,b) {
                       -   var order_a = languages[a] ? languages[a]['order'] : 9999
@@ -120,8 +119,8 @@ block content
                         if x < etyms_sorted.length-1
                           | , 
           td.col-md-5.etymology
-            h4 Language usage
-            if d.etymology
+            if d.etymology && d.etymology.length > 0
+              h4 Etymology
               table.etymologies.table.table-condensed
             
                 //- Collect etyms into groups
@@ -171,7 +170,13 @@ block content
       font-style: italic;
     }
     .highlight {
-      background: #fcf8e3; /* Bootstrap .warning */
+      background: #fcf8e3;
+    }
+    .sense.highlight {
+      display: inline-block;
+      padding: 2px 5px;
+      margin: -2px -5px;
+      border-radius: .25em;
     }
 
   script.
