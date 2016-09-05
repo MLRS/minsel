@@ -77,7 +77,8 @@ block content
               em= d.lemma
               - if (user)
                 | &nbsp;
-                a(href=baseURL+"/edit/"+d._id).btn.btn-warning.btn-xs Edit
+                a(href=baseURL+"/edit/"+d._id).btn.btn-warning.btn-xs
+                  +icon('pencil', 'Edit')
             div
               for v, k in d
                 if ['_id','lemma','root','senses','etymology'].indexOf(k) === -1
