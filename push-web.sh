@@ -2,8 +2,7 @@
 
 LOCALDIR=web/
 REMOTEDIR=/var/www/resources/minsel/
-EXTRA='' #"--size-only"
-FLAGS="--recursive --times --compress --verbose --exclude=server-config.js --exclude=.DS_Store --exclude=.git --exclude=node_modules --log-file=push.log ${EXTRA}"
+FLAGS="--recursive --checksum --compress --verbose --exclude=server-config.js --exclude=.DS_Store --exclude=.git --exclude=node_modules --log-file=push.log"
 
 echo "Push"
 if [ "$1" = "-wet" ]; then
