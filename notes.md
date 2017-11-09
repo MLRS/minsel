@@ -17,3 +17,23 @@ MINSEL meeting 2016-08-03
 - ~~striping of rows of etyms~~
 - ~~remove link from gabra to minsel~~
 - log of changes
+
+# Characters
+
+## Single quote
+'
+Apostrophe
+Basic Latin
+U+0027 &#39;
+
+## għajn
+‘
+Left Single Quotation Mark
+General Punctuation
+U+2018 &#8216;
+
+## ħamża
+’
+Right Single Quotation Mark
+General Punctuation
+U+2019 &#8217;

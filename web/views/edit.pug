@@ -5,6 +5,10 @@ block content
     div(style="display:inline-block;margin-left:1em",data-spy="affix",data-offset-top="30")
       img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden")#loading
       div.btn-group#buttons
+        a.btn.btn-default#btn-osk
+          img(src=baseURL+'/images/keyboard.svg',height=20)
+          |  Keyboard
+      div.btn-group#buttons
         a.btn.btn-default#btn-load
           +icon('repeat', 'Reset')
         a.btn.btn-warning#btn-sort 
@@ -156,3 +160,75 @@ block content
         }
       })
     })
+    
+    // Options for OSK
+    var osk_opts = {
+      layout: 'custom',
+      customLayout : {
+        'normal': [
+          'ċ ġ ħ ż ’ ‘',
+          'ā ē ī ō ū à è ì ò ù',
+          'ẖ ḥ ḍ ḏ ḏ̣ ṛ ẓ ə č ṃ ṯ ṭ ǧ ṣ š',
+          '{accept} {shift}'
+        ],
+        'shift': [
+          'Ċ Ġ Ħ Ż ’ ‘',
+          'Ā Ē Ī Ō Ū À È Ì Ò Ù',
+          'H̱ Ḥ Ḍ Ḏ Ḏ̣ Ṛ Ẓ Ə Č Ṃ Ṯ Ṭ Ǧ Ṣ Š',
+          '{accept} {shift}'
+        ]
+      },
+      position: {
+        at2: 'center bottom'
+      },
+      usePreview: false,
+      openOn: '',
+      initialFocus : true,
+      appendLocally: true,
+      
+      // Bootstrap classes
+      css: {
+        // input & preview
+        input: 'form-control input-sm',
+        // keyboard container
+        container: 'center-block dropdown-menu', // jumbotron
+        // default state
+        buttonDefault: 'btn btn-default',
+        // hovered button
+        buttonHover: 'btn-primary',
+        // Action keys (e.g. Accept, Cancel, Tab, etc);
+        // this replaces "actionClass" option
+        buttonAction: 'active',
+        // used when disabling the decimal button {dec}
+        // when a decimal exists in the input area
+        buttonDisabled: 'disabled'
+      }
+    }
+
+    var activeElem = null
+    
+    // Show OSK for current field
+    $("#btn-osk").on({
+      mousedown: function() {
+        var ae = $(document.activeElement)
+        if (ae.is('input,textarea')) {
+          activeElem = ae
+        }
+      },
+      click: function() {
+        if (activeElem == null) {
+          return true
+        }
+          
+        // If keyboard already exists, show
+        var kb = activeElem.getkeyboard()
+        if (kb !== undefined) {
+          if (!kb.isVisible()) kb.reveal()
+        }
+        // Else create keyboard
+        else {
+          activeElem.keyboard(osk_opts).getkeyboard().reveal()
+        }
+      }
+    })
+    
