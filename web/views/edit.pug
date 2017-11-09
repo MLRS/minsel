@@ -42,6 +42,26 @@ block content
       z-index: 10000;
     }
 
+    /* These are combined with dropdown-menu */
+    //- /* Local */
+    //- .ui-keyboard {
+    //-   left: auto;
+    //-   top: auto;
+    //-   position: absolute;
+    //- }
+    /* Global */
+    .ui-keyboard {
+      top: 100%;
+      width: 25em;
+      padding: 5px;
+    }
+    .ui-keyboard .ui-keyboard-spacer {
+      display: inline-block;
+    }
+    .ui-keyboard button {
+      margin-bottom: 2px;
+    }
+
   script.
     var editor
     $(document).ready(function () {
@@ -166,69 +186,127 @@ block content
       layout: 'custom',
       customLayout : {
         'normal': [
-          'ċ ġ ħ ż ’ ‘',
+          //- '{shift}',
+          'ċ ġ ħ ż {sp:.5} ’:għajn ‘:ħamża {sp:.5} \u0307:combining_dot_above \u0304:combining_macron \u0331:combining_macro_below ',
           'ā ē ī ō ū à è ì ò ù',
-          'ẖ ḥ ḍ ḏ ḏ̣ ṛ ẓ ə č ṃ ṯ ṭ ǧ ṣ š',
-          '{accept} {shift}'
+          'ẖ ḥ ḍ ḏ ḏ̣ ṛ ẓ ə', 'č ṃ ṯ ṭ ǧ ṣ š'
         ],
         'shift': [
-          'Ċ Ġ Ħ Ż ’ ‘',
-          'Ā Ē Ī Ō Ū À È Ì Ò Ù',
-          'H̱ Ḥ Ḍ Ḏ Ḏ̣ Ṛ Ẓ Ə Č Ṃ Ṯ Ṭ Ǧ Ṣ Š',
-          '{accept} {shift}'
+          // TODO
+          '{shift}',
+          'Ċ Ġ Ħ Ż'
         ]
       },
-      position: {
-        at2: 'center bottom'
-      },
       usePreview: false,
-      openOn: '',
-      initialFocus : true,
       appendLocally: true,
+      autoAccept: true,
       
       // Bootstrap classes
       css: {
         // input & preview
-        input: 'form-control input-sm',
+        //- input: 'form-control input-xs',
         // keyboard container
-        container: 'center-block dropdown-menu', // jumbotron
+        container: 'center-block dropdown-menu',
         // default state
         buttonDefault: 'btn btn-default',
         // hovered button
         buttonHover: 'btn-primary',
         // Action keys (e.g. Accept, Cancel, Tab, etc);
         // this replaces "actionClass" option
-        buttonAction: 'active',
+        //- buttonAction: 'active',
         // used when disabling the decimal button {dec}
         // when a decimal exists in the input area
-        buttonDisabled: 'disabled'
+        //- buttonDisabled: 'disabled'
       }
     }
 
-    var activeElem = null
+    //- // Version 1: must be enabled each time
+    //- var activeElem = null
+    //- 
+    //- //- osk_opts['openOn'] = ''
+    //- osk_opts['initialFocus'] = true
+    //- 
+    //- // Show OSK for current field
+    //- $("#btn-osk").on({
+    //-   mousedown: function() {
+    //-     var ae = $(document.activeElement)
+    //-     if (ae.is('#editor-holder input[type="text"], #editor-holder textarea')) {
+    //-       activeElem = ae
+    //-     }
+    //-   },
+    //-   click: function() {
+    //-     if (activeElem == null) {
+    //-       return true
+    //-     }
+    //-       
+    //-     // If keyboard already exists, show
+    //-     var kb = activeElem.getkeyboard()
+    //-     if (kb !== undefined) {
+    //-       if (!kb.isVisible()) kb.reveal()
+    //-     }
+    //-     // Else create keyboard
+    //-     else {
+    //-       activeElem.keyboard(osk_opts).getkeyboard().reveal()
+    //-     }
+    //-   }
+    //- })
     
-    // Show OSK for current field
-    $("#btn-osk").on({
-      mousedown: function() {
-        var ae = $(document.activeElement)
-        if (ae.is('input,textarea')) {
-          activeElem = ae
-        }
-      },
-      click: function() {
-        if (activeElem == null) {
-          return true
-        }
-          
-        // If keyboard already exists, show
-        var kb = activeElem.getkeyboard()
-        if (kb !== undefined) {
-          if (!kb.isVisible()) kb.reveal()
-        }
-        // Else create keyboard
-        else {
-          activeElem.keyboard(osk_opts).getkeyboard().reveal()
-        }
-      }
+    //- // Version 2: toggled globally for all fields
+    //- // Requires addition to editor.change event
+    //- var osk_enabled = false
+    //- 
+    //- osk_opts['openOn'] = 'focus'
+    //- //- osk_opts['visible'] = function(event, keyboard, el) {
+    //- //-   if (!osk_enabled)
+    //- //-     keyboard.close()
+    //- //- }
+    //- 
+    //- // TODO: memory leak?
+    //- $(document).ready(function () {
+    //-   editor.on('change', function () {
+    //-     if (osk_enabled)
+    //-       $("#editor-holder input[type='text']:not(.typeahead)").keyboard(osk_opts)
+    //-   })
+    //- })
+    //- 
+    //- // Toggle OSK for all fields
+    //- $("#btn-osk").click(function () {
+    //-   osk_enabled = !osk_enabled
+    //-   if (osk_enabled) {
+    //-     $(this).addClass('active')
+    //-     $("#editor-holder input[type='text']:not(.typeahead)").keyboard(osk_opts)
+    //-   } else {
+    //-     $(this).removeClass('active')
+    //-     $("#editor-holder input[type='text']").each(function(){
+    //-       if ($(this).getkeyboard())
+    //-         $(this).getkeyboard().destroy()
+    //-     })
+    //-   }
+    //- })
+
+    // Version 3: one OSK for any input
+    
+    var activeElem = null
+
+    // Update last focused field
+    $(document).ready(function () {
+      editor.on('change', function () {
+        $("#editor-holder input[type='text']").on('focus', function () {
+          activeElem = $(this)
+        })
+      })
     })
     
+    $('#btn-osk').parent().append(
+      $('<input id="osk">').hide()
+        .keyboard(osk_opts).on('keyboardChange', function (event) {
+          if (event.action === 'shift') return
+          if (activeElem) {
+            var newval = activeElem.val() + event.action
+            activeElem.val(newval)
+          }
+        })
+    )
+    $('#btn-osk').click(function () {
+      $('#osk').getkeyboard().reveal()
+    })
