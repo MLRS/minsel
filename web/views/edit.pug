@@ -4,11 +4,12 @@ block content
   h1= title
     div(style="display:inline-block;margin-left:1em",data-spy="affix",data-offset-top="30")
       img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden")#loading
-      div.btn-group#buttons
-        a.btn.btn-default#btn-osk
-          img(src=baseURL+'/images/keyboard.svg',height=20)
-          |  Keyboard
-      div.btn-group#buttons
+      div.btn-group
+        input(type='hidden')#osk
+      div.btn-group
+        a.btn.btn-primary#btn-osk
+          img(src=baseURL+'/images/keyboard.svg',height=20,style='-webkit-filter:invert(100%); filter:invert(100%);')
+      div.btn-group
         a.btn.btn-default#btn-load
           +icon('repeat', 'Reset')
         a.btn.btn-warning#btn-sort 
@@ -51,262 +52,25 @@ block content
     //- }
     /* Global */
     .ui-keyboard {
-      top: 100%;
       width: 25em;
       padding: 5px;
+      top: 18px;
+      left: 10px;
     }
     .ui-keyboard .ui-keyboard-spacer {
       display: inline-block;
     }
     .ui-keyboard button {
       margin-bottom: 2px;
+      padding: 5px 12px;
     }
 
+  //- Pass info to global object for script to access
   script.
-    var editor
-    $(document).ready(function () {
-      var element = document.getElementById('editor-holder')
-      editor = new JSONEditor(element, {
-        schema: !{schema}
-      })
-      editor.on('ready', function () {
-        $("#btn-load").trigger('click')
-      })
-      editor.on('change', function () {
-        var langs = new Bloodhound({
-          datumTokenizer: Bloodhound.tokenizers.whitespace,
-          queryTokenizer: Bloodhound.tokenizers.whitespace,
-          local: !{JSON.stringify(languages)}
-        })
-        var refs = new Bloodhound({
-          datumTokenizer: Bloodhound.tokenizers.whitespace,
-          queryTokenizer: Bloodhound.tokenizers.whitespace,
-          local: !{JSON.stringify(references)}
-        })
-        var opts = {
-          minLength: 1,
-          highlight: true
-        }
-        $('td[data-schemapath^="root.senses"][data-schemapath*="etymologies"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
-          name: 'language',
-          source: langs
-        })
-        $('td[data-schemapath^="root.etymology"][data-schemapath$="language"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
-          name: 'language',
-          source: langs
-        })
-        $('td[data-schemapath^="root.etymology"][data-schemapath$="reference"] input:not(.typeahead)').addClass('typeahead').typeahead(opts, {
-          name: 'reference',
-          source: refs
-        })
-      })
-    })
+    Minsel['id'] = '#{id}'
+    Minsel['schema'] = !{schema}
+    Minsel['languages'] = !{JSON.stringify(languages)}
+    Minsel['references'] = !{JSON.stringify(references)}
     
-    $("#btn-load").click(function () {
-      show_loading()
-      $.ajax({
-        method: "GET",
-        url: "#{baseURL}/entries/#{id}",
-        success: function (data) {
-          editor.setValue(data)
-        },
-        error: function (err) {
-          alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
-        },
-        complete: function () {
-          hide_loading()
-        }
-      })
-    })
-    
-    $("#btn-sort").click(function () {
-      show_loading()
-      var langs = !{JSON.stringify(languages)}
-      var data = editor.getValue()
-      console.log(data)
-      for (var i in data.senses) {
-        data.senses[i].etymologies.sort(function (a,b) {
-          var order_a = langs.indexOf(a) > -1 ? langs.indexOf(a) : 9999
-          var order_b = langs.indexOf(b) > -1 ? langs.indexOf(b) : 9999
-          return order_a - order_b
-        })
-      }
-      data.etymology.sort(function (a,b) {
-        var order_a = langs.indexOf(a.language) > -1 ? langs.indexOf(a.language) : 9999
-        var order_b = langs.indexOf(b.language) > -1 ? langs.indexOf(b.language) : 9999
-        return order_a - order_b
-      })
-      editor.setValue(data)
-      hide_loading()
-    })
-    $("#btn-save").click(function () {
-      var id = "#{id}" // null when adding
-      show_loading()
-      $.ajax({
-        method: "POST",
-        contentType: "application/json",
-        url: "#{baseURL}/entries/"+id,
-        data: JSON.stringify(editor.getValue()),
-        success: function (data) {
-          if (id) {
-            editor.setValue(data)
-          } else {
-            window.location.replace('#{baseURL}/edit/'+data._id)
-          }
-        },
-        error: function (err) {
-          alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
-        },
-        complete: function () {
-          hide_loading()
-        }
-      })
-    })
-    $("#btn-delete").click(function () {
-      if (!confirm("Really delete this entry?"))
-        return false
-      show_loading()
-      $.ajax({
-        method: "DELETE",
-        url: "#{baseURL}/entries/#{id}",
-        success: function () {
-          window.location.replace('#{baseURL}/')
-        },
-        error: function (err) {
-          alert(err.statusText + "\n" + err.responseJSON.name + "\n" + err.responseJSON.err)
-        },
-        complete: function () {
-          hide_loading()
-        }
-      })
-    })
-    
-    // Options for OSK
-    var osk_opts = {
-      layout: 'custom',
-      customLayout : {
-        'normal': [
-          //- '{shift}',
-          'ċ ġ ħ ż {sp:.5} ’:għajn ‘:ħamża {sp:.5} \u0307:combining_dot_above \u0304:combining_macron \u0331:combining_macron_below ',
-          'ā ē ī ō ū à è ì ò ù',
-          'ẖ ḥ ḍ ḏ ḏ̣ ṛ ẓ ə', 'č ṃ ṯ ṭ ǧ ṣ š'
-        ],
-        'shift': [
-          // TODO
-          '{shift}',
-          'Ċ Ġ Ħ Ż'
-        ]
-      },
-      usePreview: false,
-      appendLocally: true,
-      autoAccept: true,
-      
-      // Bootstrap classes
-      css: {
-        // input & preview
-        //- input: 'form-control input-xs',
-        // keyboard container
-        container: 'center-block dropdown-menu',
-        // default state
-        buttonDefault: 'btn btn-default',
-        // hovered button
-        buttonHover: 'btn-primary',
-        // Action keys (e.g. Accept, Cancel, Tab, etc);
-        // this replaces "actionClass" option
-        //- buttonAction: 'active',
-        // used when disabling the decimal button {dec}
-        // when a decimal exists in the input area
-        //- buttonDisabled: 'disabled'
-      }
-    }
-
-    //- // Version 1: must be enabled each time
-    //- var activeElem = null
-    //- 
-    //- //- osk_opts['openOn'] = ''
-    //- osk_opts['initialFocus'] = true
-    //- 
-    //- // Show OSK for current field
-    //- $("#btn-osk").on({
-    //-   mousedown: function() {
-    //-     var ae = $(document.activeElement)
-    //-     if (ae.is('#editor-holder input[type="text"], #editor-holder textarea')) {
-    //-       activeElem = ae
-    //-     }
-    //-   },
-    //-   click: function() {
-    //-     if (activeElem == null) {
-    //-       return true
-    //-     }
-    //-       
-    //-     // If keyboard already exists, show
-    //-     var kb = activeElem.getkeyboard()
-    //-     if (kb !== undefined) {
-    //-       if (!kb.isVisible()) kb.reveal()
-    //-     }
-    //-     // Else create keyboard
-    //-     else {
-    //-       activeElem.keyboard(osk_opts).getkeyboard().reveal()
-    //-     }
-    //-   }
-    //- })
-    
-    //- // Version 2: toggled globally for all fields
-    //- // Requires addition to editor.change event
-    //- var osk_enabled = false
-    //- 
-    //- osk_opts['openOn'] = 'focus'
-    //- //- osk_opts['visible'] = function(event, keyboard, el) {
-    //- //-   if (!osk_enabled)
-    //- //-     keyboard.close()
-    //- //- }
-    //- 
-    //- // TODO: memory leak?
-    //- $(document).ready(function () {
-    //-   editor.on('change', function () {
-    //-     if (osk_enabled)
-    //-       $("#editor-holder input[type='text']:not(.typeahead)").keyboard(osk_opts)
-    //-   })
-    //- })
-    //- 
-    //- // Toggle OSK for all fields
-    //- $("#btn-osk").click(function () {
-    //-   osk_enabled = !osk_enabled
-    //-   if (osk_enabled) {
-    //-     $(this).addClass('active')
-    //-     $("#editor-holder input[type='text']:not(.typeahead)").keyboard(osk_opts)
-    //-   } else {
-    //-     $(this).removeClass('active')
-    //-     $("#editor-holder input[type='text']").each(function(){
-    //-       if ($(this).getkeyboard())
-    //-         $(this).getkeyboard().destroy()
-    //-     })
-    //-   }
-    //- })
-
-    // Version 3: one OSK for any input
-    
-    var activeElem = null
-
-    // Update last focused field
-    $(document).ready(function () {
-      editor.on('change', function () {
-        $("#editor-holder input[type='text']").on('focus', function () {
-          activeElem = $(this)
-        })
-      })
-    })
-    
-    $('#btn-osk').parent().append(
-      $('<input id="osk">').hide()
-        .keyboard(osk_opts).on('keyboardChange', function (event) {
-          if (event.action === 'shift') return
-          if (activeElem) {
-            var newval = activeElem.val() + event.action
-            activeElem.val(newval)
-          }
-        })
-    )
-    $('#btn-osk').click(function () {
-      $('#osk').getkeyboard().reveal()
-    })
+  script(src=baseURL+'/javascripts/cursor.js')
+  script(src=baseURL+'/javascripts/edit.js')

@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var ensureLoggedInAPI = require('../middlewares/ensureLoggedInAPI')
+// var ensureLoggedInAPI = require('../middlewares/dummyLoggedIn')
 var log = require('../middlewares/logger').makeLogger('entries')
 
 // -- CRUD API ---------------------------------------------------------------

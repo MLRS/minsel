@@ -3,9 +3,6 @@ mixin icon(name, text)
   if (text)
     |&nbsp;#{text}
     
-mixin loader(name)
-  img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden;height:24px;width:24px",id="loading-"+name)
-
 doctype html
 html(lang="en")
   head
@@ -47,6 +44,9 @@ html(lang="en")
       .etymology .language {
         font-weight: bold;
       }
+      .etymology .native {
+        color: #aaa;
+      }
     style
       include ../public/stylesheets/json-pretty.css
 
@@ -75,21 +75,28 @@ html(lang="en")
         JSONEditor.defaults.options.theme = 'bootstrap3'
         JSONEditor.defaults.options.iconlib = 'bootstrap3'
       })
-      function show_loading() {
+      function show_loading () {
         $('#loading').css('visibility','visible')
       }
-      function hide_loading() {
+      function hide_loading () {
         $('#loading').css('visibility','hidden')
       }
-      function handle_error(err) {
-        var msg = err.statusText
-        if (err.responseJSON) {
-            msg += "\n" + err.responseJSON.name
-            msg += "\n" + err.responseJSON.err
-        } else if (err.responseText) {
-            msg += "\n" + err.responseText
+      function handle_error (err) {
+        var msg = ''
+        if (err.statusText) msg += err.statusText + '<br>'
+        if (err.responseText) {
+          msg += err.responseText + '<br>'
         }
-        alert(msg)
+        if (err.responseJSON) {
+          msg += err.responseJSON.name + '<br>'
+          msg += err.responseJSON.err
+        }
+        $('.container:nth(1)').prepend(
+          $('<div>').addClass('alert alert-danger').html(msg)
+        )
+      }
+      Minsel = {
+        baseURL: '#{baseURL}'
       }
 
   body(role="document",style="margin-top:4em")

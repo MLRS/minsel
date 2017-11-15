@@ -10,7 +10,8 @@ mixin etym(es)
       td
         em= e.word
         if e.word_native
-          span= e.word_native
+          |  
+          span.native= e.word_native
         if e.comments
           div= e.comments
       if e.reference
@@ -104,10 +105,10 @@ block content
               ol
                 for s in d.senses
                   //- No etymologies given = occurs in all
-                  if (s.etymologies.length == 0)
-                    for e in d.etymology
-                      if (s.etymologies.indexOf(e['language']) === -1)
-                        - s.etymologies.push(e['language'])
+                  //- if (s.etymologies.length == 0)
+                  //-   for e in d.etymology
+                  //-     if (s.etymologies.indexOf(e['language']) === -1)
+                  //-       - s.etymologies.push(e['language'])
                   li
                     div.sense(class=s.etymologies.join(' '))
                       = s.description.join(', ')
@@ -179,7 +180,7 @@ block content
         div.modal-body
           div#history
         div.modal-footer
-          +loader('history')
+          img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden")#loading
 
   style.
     table.etymologies {
@@ -223,14 +224,14 @@ block content
       function load_history (type, id) {
         $('#history-modal').modal('show')
         $('#history').text('')
-        show_loading('history')
+        show_loading()
         $.ajax({
           method: 'GET',
           url: '#{baseURL}/logs/' + type + '/' + id,
           success: view_history,
-          error: handle_err,
+          error: handle_error,
           complete: function () {
-            hide_loading('history')
+            hide_loading()
           }
         })
       }
@@ -253,7 +254,7 @@ block content
                 $('<td>').append(
                   $('<div>').text(item.date),
                   // Fields below are all optional
-                  $('<div>').addClass('text-primary').text(item.action),
+                  $('<div>').addClass('text-info').text(item.action),
                   $('<div>').addClass('text-muted').text(item.username),
                   $('<div>').addClass('text-muted').text(item.ip)
                 ),
@@ -275,19 +276,4 @@ block content
         }
       }
 
-      function handle_err (err) {
-        var msg = ''
-        if (err.statusText) msg += err.statusText + '<br>'
-        if (err.responseText) {
-          msg += err.responseText + '<br>'
-        }
-        if (err.responseJSON) {
-          msg += err.responseJSON.name + '<br>'
-          msg += err.responseJSON.err
-        }
-        $('.container:nth(2)').before(
-          $('<div>').addClass('alert alert-danger').html(msg)
-        )
-      }
-      
     })

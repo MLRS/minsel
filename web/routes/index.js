@@ -4,6 +4,7 @@ var fs = require('fs')
 var async = require('async')
 var passport = require('passport')
 var ensureLoggedIn = require('../middlewares/ensureLoggedIn')
+// var ensureLoggedIn = require('../middlewares/dummyLoggedIn')
 var config = require('../server-config')
 
 const schema_file = 'public/schemas/entry.json'

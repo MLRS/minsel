@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var monk = require('monk')
 var ensureLoggedIn = require('../middlewares/ensureLoggedIn')
+// var ensureLoggedIn = require('../middlewares/dummyLoggedIn')
 var config = require('../server-config')
 
 // -- Pages -----------------------------------------------------------------
