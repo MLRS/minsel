@@ -3,7 +3,6 @@ var router = express.Router()
 var fs = require('fs')
 var async = require('async')
 var passport = require('passport')
-// var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 var ensureLoggedIn = require('../middlewares/ensureLoggedIn')
 var config = require('../server-config')
 
@@ -12,22 +11,81 @@ const schema_file = 'public/schemas/entry.json'
 // -- Main pages -------------------------------------------------------------
 
 /* GET home page - list entries */
-/* Could contain a serach term in s */
-router.get('/', function (req, res, next) {
+/* Could contain a search term in s */
+router.get('/',
+  function (req, res, next) {
+    var opts = {}
+    if (req.query.s) {
+      opts = {
+        'title': 'Entries matching "' + req.query.s + '"',
+        'conds': {
+          'lemma': {'$regex': req.query.s}
+        },
+        'id': null
+      }
+    } else {
+      opts = {
+        'title': 'All entries',
+        'conds': {},
+        'id': null
+      }
+    }
+    index_view(req, res, next, opts)
+  }
+)
+
+/* GET view - details for single entry */
+router.get('/view/:id',
+  function (req, res, next) {
+    index_view(req, res, next, {
+      'title': 'View entry',
+      'conds': {
+        '_id': req.params.id
+      },
+        'id': req.params.id
+    })
+  }
+)
+
+/* GET add */
+router.get('/add',
+  ensureLoggedIn(config.baseURL+'/login'),
+  function (req, res, next) {
+    add_edit(req, res, next, {
+      'title': 'New entry',
+      'id': null
+    })
+  }
+)
+
+/* GET edit */
+router.get('/edit/:id',
+  ensureLoggedIn(config.baseURL+'/login'),
+  function (req, res, next) {
+    add_edit(req, res, next, {
+      'title': 'Edit entry',
+      'id': req.params.id
+    })
+  }
+)
+
+/* Load stuff we need for index/view */
+/* params.title, params.conds, params.id */
+var index_view = function (req, res, next, params) {
   var db = req.db
   async.parallel({
       entries: function (callback) {
-        var conds = {}
+        var conds = params.conds
         var opts = {
           'sort': {
             'root.radicals': 1,
             'lemma': 1,
           }
         }
-        if (req.query.s) {
-          conds['lemma'] = {'$regex': req.query.s}
-        }
         db.get('entries').find(conds, opts, callback)
+      },
+      entry_count: function (callback) {
+        db.get('entries').count(callback)
       },
       languages: function (callback) {
         db.get('languages').find({}, {'sort': {'order': 1}}, function (err, data) {
@@ -64,24 +122,20 @@ router.get('/', function (req, res, next) {
         groups[item.class].push(item.abbrev)
       }
 
-      var title
-      if (req.query.s) {
-        title = 'Entries matching "' + req.query.s + '"'
-      } else {
-        title = 'All entries'
-      }
       res.render('index', {
-        title: title,
+        title: params.title,
+        id: params.id,
         query: req.query,
         data: data.entries,
+        entry_count: data.entry_count,
         groups: groups,
         languages: data.languages,
         references: data.references
       })
+    }
+  )
+}
 
-    })
-
-})
 
 /* Load stuff we need for add/edit */
 var add_edit = function (req, res, next, params) {
@@ -132,28 +186,6 @@ var add_edit = function (req, res, next, params) {
     }
   )
 }
-
-/* GET add */
-router.get('/add',
-  ensureLoggedIn(config.baseURL+'/login'),
-  function (req, res, next) {
-    add_edit(req, res, next, {
-      'title': 'New entry',
-      'id': null
-    })
-  }
-)
-
-/* GET edit */
-router.get('/edit/:id',
-  ensureLoggedIn(config.baseURL+'/login'),
-  function (req, res, next) {
-    add_edit(req, res, next, {
-      'title': 'Edit entry',
-      'id': req.params.id
-    })
-  }
-)
 
 // -- Login stuff ------------------------------------------------------------
 

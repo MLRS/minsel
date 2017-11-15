@@ -1,8 +1,7 @@
 var express = require('express')
 var router = express.Router()
-var passport = require('passport')
-// var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 var ensureLoggedInAPI = require('../middlewares/ensureLoggedInAPI')
+var log = require('../middlewares/logger').makeLogger('entries')
 
 // -- CRUD API ---------------------------------------------------------------
 
@@ -16,6 +15,7 @@ router.post('/',
       if (err) {
         res.status(500).send(err)
       }
+      log(req, data._id, data, 'created')
       res.json(data)
     })
   }
@@ -76,6 +76,7 @@ router.post('/:id',
         if (err) {
           res.status(500).send(err)
         }
+        log(req, data._id, data, 'modified')
         res.json(data)
       })
     })
@@ -91,6 +92,7 @@ router.delete('/:id',
       if (err) {
         res.status(500).send(err)
       }
+      log(req, req.params.id, null, 'deleted')
       res.end()
     })
   }

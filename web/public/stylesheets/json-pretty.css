@@ -1,0 +1,27 @@
+.json {}
+.json .json-object {}
+.json .json-row {}
+.json .json-key {
+  color: #aaa;
+}
+.json .json-list-index {
+  color: #8aa;
+  font-style: italic;
+}
+.json .json-colon {
+  padding: 5px;
+  color: #aaa;
+}
+.json .json-value {
+  display: inline-block;
+  vertical-align: top;
+  color: #333;
+}
+.json .json-list {
+}
+.json .json-list .json-list-item {
+}
+.json .json-value.json-null {
+  color: #aaa;
+  font-style: italic;
+}

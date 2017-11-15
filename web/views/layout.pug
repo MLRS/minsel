@@ -3,6 +3,9 @@ mixin icon(name, text)
   if (text)
     |&nbsp;#{text}
     
+mixin loader(name)
+  img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden;height:24px;width:24px",id="loading-"+name)
+
 doctype html
 html(lang="en")
   head
@@ -10,7 +13,11 @@ html(lang="en")
     meta(http-equiv="X-UA-Compatible",content="IE=edge")
     meta(name="viewport",content="width=device-width, initial-scale=1")
 
-    title Minsel
+    title
+      | Minsel
+      if (title)
+        | : 
+        =title
     link(rel="shortcut icon",href=baseURL+"/images/favicon-bold.ico")
 
     - if (useCDN)
@@ -40,6 +47,8 @@ html(lang="en")
       .etymology .language {
         font-weight: bold;
       }
+    style
+      include ../public/stylesheets/json-pretty.css
 
     - if (useCDN)
       script(src='//code.jquery.com/jquery-2.1.4.min.js')
@@ -99,7 +108,7 @@ html(lang="en")
             input(type="search",name="s",autofocus="true",placeholder="Search",value=search_term).form-control
             div.input-group-btn
               button(type="submit").btn.btn-primary
-                span.glyphicon.glyphicon-search
+                +icon('search')
         .navbar-collapse.collapse#navbar-collapse
           ul.nav.navbar-nav
             li
@@ -110,22 +119,24 @@ html(lang="en")
               a(href=baseURL+"/languages/show") Languages
             - if (!user)
               li
-                a(href=baseURL+"/login") Login
+                a(href=baseURL+"/login") 
+                  +icon('user', 'Login')
             - if (user)
               li
                 a(href=baseURL+"/add")
-                  span.glyphicon.glyphicon-plus
-                  |  New entry
+                  +icon('plus', 'New entry')
+              li
+                a(href=baseURL+"/logs")
+                  +icon('time', 'Recent changes')
               li.dropdown
                 a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-                  span.glyphicon.glyphicon-user
-                  |  #{user.username}  
+                  +icon('user', user.username)
+                  |  
                   span.caret
                 ul.dropdown-menu
                   li
                     a(href=baseURL+"/logout").navbar-link
-                      span.glyphicon.glyphicon-off
-                      |  Logout
+                      +icon('off', 'Logout')
             
     .container
       block content

@@ -112,6 +112,7 @@ app.use('/', require('./routes/index'))
 app.use('/entries', require('./routes/entries'))
 app.use('/languages', require('./routes/languages'))
 app.use('/references', require('./routes/references'))
+app.use('/logs', require('./routes/logs'))
 
 // http://stackoverflow.com/a/27464258/98600
 // app.use('/json-editor', express.static(__dirname + '/node_modules/json-editor/dist/'))

@@ -41,7 +41,7 @@ mixin reference(ref_str)
 
 block content
   
-  if !query || !query.s
+  if (!query.s && !id)
     div.jumbotron(style="margin-top:2em")
       h1
         span(style="color:firebrick") Minsel 
@@ -49,7 +49,9 @@ block content
       p Minsel is a new etymological dictionary for Maltese, being compiled by
         | researchers at the Department of Oriental Studies at the
         | University of Malta.
-        | There's currently not much here, but new entries are being added slowly.
+        | It currently contains 
+        span.label.label-default= entry_count
+        |  entries.
         
   //- pre.pre-scrollable
   //-   | LANGUAGES = 
@@ -74,11 +76,8 @@ block content
         tr
           td.col-md-2
             div(style="font-size:2em;margin-bottom:0").lead
-              em= d.lemma
-              - if (user)
-                | &nbsp;
-                a(href=baseURL+"/edit/"+d._id).btn.btn-warning.btn-xs
-                  +icon('pencil', 'Edit')
+              em
+                a(href=baseURL+"/view/"+d._id)= d.lemma
             div
               for v, k in d
                 if ['_id','lemma','root','senses','etymology'].indexOf(k) === -1
@@ -92,6 +91,13 @@ block content
                   = d.root.radicals
                   if d.root.variant
                     sup.text-muted= d.root.variant
+            if (user)
+              div
+                a(href=baseURL+"/edit/"+d._id).btn.btn-xs.btn-warning
+                  +icon('pencil', 'Edit')
+                | &nbsp;
+                button(type="button",data-id=''+d._id,data-action="history").btn.btn-xs.btn-info
+                  +icon('time', 'History')
           td.col-md-5.senses
             if d.senses && d.senses.length > 0
               h4 Senses
@@ -162,6 +168,19 @@ block content
                         h5 pp.
                     +etym(e.items)
 
+  div.modal#history-modal
+    div.modal-dialog.modal-lg
+      div.modal-content
+        div.modal-header
+          button(type="button",class="close",data-dismiss="modal",aria-label="Close")
+            span(aria-hidden="true") &times;
+          h4.modal-title
+          small.text-muted Note: direct edits to the database are not recording in the history.
+        div.modal-body
+          div#history
+        div.modal-footer
+          +loader('history')
+
   style.
     table.etymologies {
       width: 100%;
@@ -179,6 +198,7 @@ block content
       border-radius: .25em;
     }
 
+  script(src=baseURL+'/javascripts/json-pretty.js',defer)
   script.
     $(document).ready(function () {
       $('.etymology tr[data-language]').hover(
@@ -195,4 +215,79 @@ block content
           $('.sense.'+lang).removeClass('highlight')
         }
       )
+      
+      $('button[data-action="history"]').click(function () {
+        load_history('entries', $(this).attr('data-id'))
+      })
+      
+      function load_history (type, id) {
+        $('#history-modal').modal('show')
+        $('#history').text('')
+        show_loading('history')
+        $.ajax({
+          method: 'GET',
+          url: '#{baseURL}/logs/' + type + '/' + id,
+          success: view_history,
+          error: handle_err,
+          complete: function () {
+            hide_loading('history')
+          }
+        })
+      }
+
+      function view_history (data) {
+        var table = $('<table>').addClass('table table-condensed')
+        var thead = $('<thead>').appendTo(table)
+        thead.append(
+          $('<tr>').append(
+            $('<th>').text('Details'),
+            $('<th>').text('Document')
+          )
+        )
+        var tbody = $('<tbody>').appendTo(table)
+        $('#history').text('').append(table)
+        if (data.length > 0) {
+          data.forEach(function (item) {
+            tbody.append(
+              $('<tr>').append(
+                $('<td>').append(
+                  $('<div>').text(item.date),
+                  // Fields below are all optional
+                  $('<div>').addClass('text-primary').text(item.action),
+                  $('<div>').addClass('text-muted').text(item.username),
+                  $('<div>').addClass('text-muted').text(item.ip)
+                ),
+                $('<td>').append(
+                  item.new_value
+                  ? $('<pre>').addClass('json').html(JSONPretty(item.new_value))
+                  : '-'
+                )
+              )
+            )
+          })
+          $('#btn-replace-commit').removeClass('disabled')
+        } else {
+          tbody.append(
+            $('<tr>').append(
+              $('<td>').attr('colspan', 2).text('No history')
+            )
+          )
+        }
+      }
+
+      function handle_err (err) {
+        var msg = ''
+        if (err.statusText) msg += err.statusText + '<br>'
+        if (err.responseText) {
+          msg += err.responseText + '<br>'
+        }
+        if (err.responseJSON) {
+          msg += err.responseJSON.name + '<br>'
+          msg += err.responseJSON.err
+        }
+        $('.container:nth(2)').before(
+          $('<div>').addClass('alert alert-danger').html(msg)
+        )
+      }
+      
     })
