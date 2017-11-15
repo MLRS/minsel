@@ -86,7 +86,7 @@ var index_view = function (req, res, next, params) {
         db.get('entries').find(conds, opts, callback)
       },
       entry_count: function (callback) {
-        db.get('entries').count(callback)
+        db.get('entries').count({}, {}, callback)
       },
       languages: function (callback) {
         db.get('languages').find({}, {'sort': {'order': 1}}, function (err, data) {

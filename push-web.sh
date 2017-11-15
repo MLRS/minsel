@@ -8,6 +8,8 @@ echo "Push"
 if [ "$1" = "-wet" ]; then
   echo "(For real)"
   rsync           $FLAGS $LOCALDIR mlrs.research.um.edu.mt:$REMOTEDIR
+  echo
+  echo "### Remember you might need to run 'npm install' and 'pm2 restart minsel' on the server ###"
 else
   echo "(Dry-run)"
   rsync --dry-run $FLAGS $LOCALDIR mlrs.research.um.edu.mt:$REMOTEDIR
