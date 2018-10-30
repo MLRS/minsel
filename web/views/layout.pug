@@ -109,26 +109,22 @@ html(lang="en")
             span.icon-bar
             span.icon-bar
           a.navbar-brand(href=baseURL+"/",style="color:firebrick") Minsel
-        form(role="search",action=baseURL+"/",method="GET").navbar-form.navbar-right
-          div.input-group
-            - var search_term = (query) ? query.s : ''
-            input(type="search",name="s",autofocus="true",placeholder="Search",value=search_term).form-control
-            div.input-group-btn
-              button(type="submit").btn.btn-primary
-                +icon('search')
-        .navbar-collapse.collapse#navbar-collapse
-          ul.nav.navbar-nav
-            li
-              a(href=baseURL+"/") List entries
-            li
-              a(href=baseURL+"/references/show") References
-            li
-              a(href=baseURL+"/languages/show") Languages
-            - if (!user)
+        - if (user)
+          form(role="search",action=baseURL+"/",method="GET").navbar-form.navbar-right
+            div.input-group
+              - var search_term = (query) ? query.s : ''
+              input(type="search",name="s",autofocus="true",placeholder="Search",value=search_term).form-control
+              div.input-group-btn
+                button(type="submit").btn.btn-primary
+                  +icon('search')
+          .navbar-collapse.collapse#navbar-collapse
+            ul.nav.navbar-nav
               li
-                a(href=baseURL+"/login") 
-                  +icon('user', 'Login')
-            - if (user)
+                a(href=baseURL+"/") List entries
+              li
+                a(href=baseURL+"/references/show") References
+              li
+                a(href=baseURL+"/languages/show") Languages
               li
                 a(href=baseURL+"/add")
                   +icon('plus', 'New entry')
@@ -144,7 +140,13 @@ html(lang="en")
                   li
                     a(href=baseURL+"/logout").navbar-link
                       +icon('off', 'Logout')
-            
+        - else
+          .navbar-collapse.collapse.navbar-right#navbar-collapse
+            ul.nav.navbar-nav
+              li
+                a(href=baseURL+"/login") 
+                  +icon('user', 'Login')
+        
     .container
       block content
     //- footer.footer
