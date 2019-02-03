@@ -4,5 +4,7 @@ module.exports = {
   baseURL: '',
   salt: '',
   analyticsCode: null,
-  sessionSecret: ''
+  sessionSecret: '',
+  dbUrl: '',
+  dbOptions: {}
 }
