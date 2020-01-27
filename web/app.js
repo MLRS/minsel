@@ -61,7 +61,7 @@ app.use(require('express-session')({
 
 // Database
 var monk = require('monk')
-var db = monk(config.dbUrl, config.dbOptions)
+var db = monk(config.dbUrl)
 // Make our db accessible to our router
 app.use(function (req, res, next) {
   req.db = db
