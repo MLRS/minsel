@@ -14,7 +14,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "async": "^1.4.0",
+    "async": "^2.6.4",
     "body-parser": "^1.18.3",
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
